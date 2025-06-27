@@ -1,3 +1,4 @@
+'use client';
 import InputSelect from "@/app/components/form/InputSelect";
 import {useEffect, useState} from "react";
 import {Options} from "@/types";

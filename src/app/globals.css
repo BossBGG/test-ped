@@ -82,6 +82,7 @@
 /*---break---*/
 
 :root {
+  --pea-button-bg-color: #671FAB;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

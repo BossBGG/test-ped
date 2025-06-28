@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { DataTable } from "@/app/components/list/DataTable";
 import { getColumns } from "./columns";
 import { MaterialEquipmentList } from "@/app/api/MaterialEquipmentApi";
+import CardCollapse from '../CardCollapse';
 
 const MaterialEquipmentChecklistPage = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -25,21 +26,8 @@ const MaterialEquipmentChecklistPage = () => {
 
   return (
     <div>
-      {/* แสดงจำนวนรายการที่เลือก */}
-      {selectedItems.length > 0 && (
-        <div className="mb-4 p-3 bg-blue-50 rounded-lg">
-          <p className="text-blue-800">
-            เลือกรายการแล้ว {selectedItems.length} รายการ
-          </p>
-          <button 
-            onClick={() => setSelectedItems([])}
-            className="mt-2 px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-          >
-            ยกเลิกการเลือกทั้งหมด
-          </button>
-        </div>
-      )}
-
+      
+      <CardCollapse title={"ผลการปฏิบัติงาน"}>
       <DataTable 
         columns={columns}
         tableApi={MaterialEquipmentList}
@@ -50,6 +38,7 @@ const MaterialEquipmentChecklistPage = () => {
           </div>
         }
       />
+      </CardCollapse>
     </div>
   );
 };

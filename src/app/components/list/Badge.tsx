@@ -1,6 +1,7 @@
 import {cn} from "@/lib/utils";
 
 interface BadgeProps {
+ 
   label: string;
   variant?: "error" | "info" | "warning" | "critical" | "debug" | "notice" | "success" | "caution" | "active" | "inactive";
 }

@@ -32,7 +32,7 @@ const ElectricalRepairOrderS301 = () => {
   ]
 
   useEffect(() => {
-    setBreadcrumb(<WorkOrderBreadcrumb title={'สร้างใบสั่งงาน ขอซ่อมแซมอุปกรณ์ไฟฟ้า'} path={'s301'}/>)
+    setBreadcrumb(<WorkOrderBreadcrumb title={'สร้างใบสั่งงาน ขอตรวจสอบและบำรุงรักษาสวิตซ์เกียร์'} path={'s302'}/>)
   }, [setBreadcrumb])
 
   const updateCustomerInfo = (value: Customer) => {

@@ -13,6 +13,7 @@ import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/compone
 import {faFile, faPen, faScrewdriver, faUser} from "@fortawesome/pro-light-svg-icons";
 import WorkerList from "@/app/(pages)/work_order/(special-form)/component/worker/WorkerList";
 import MaterialEquipmentChecklistPage from "../component/material_equipment_checklist/material_equipment_checklist";
+import WorkExecution from "../component/work_execution/work_execution";
 
 
 const ElectricalRepairOrderS301 = () => {
@@ -72,6 +73,9 @@ const ElectricalRepairOrderS301 = () => {
       
       case 2:
         return <MaterialEquipmentChecklistPage/>;
+
+      case 3:
+        return <WorkExecution/>
       
      
       

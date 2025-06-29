@@ -4,9 +4,17 @@ import { DataTable } from "@/app/components/list/DataTable";
 import { getColumns } from "./columns";
 import { MaterialEquipmentList } from "@/app/api/MaterialEquipmentApi";
 import CardCollapse from '../CardCollapse';
+import { DataTableEditor } from "@/app/components/editor-table/DataTableEditor";
+import { MaterialEquipmentObj } from "@/types";
+import { Button } from "@/components/ui/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/pro-light-svg-icons";
 
 const MaterialEquipmentChecklistPage = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [materialEquipments, setMaterialEquipments] = useState<MaterialEquipmentObj[]>([
+    
+  ]);
   
   // ฟังก์ชันสำหรับจัดการการเลือก/ยกเลิกการเลือกรายการ
   const handleToggleSelection = (id: string) => {
@@ -21,23 +29,47 @@ const MaterialEquipmentChecklistPage = () => {
     });
   };
 
+  const handleUpdateData = (data: MaterialEquipmentObj[]) => {
+    setMaterialEquipments(data);
+  };
+
+  const onRemoveData = (id: number) => {
+    console.log('Remove data with id:', id);
+  };
+
   // สร้าง columns โดยส่ง selectedItems และฟังก์ชัน handleToggleSelection
   const columns = getColumns(selectedItems, handleToggleSelection);
 
+  const itemMaterialEquipment: MaterialEquipmentObj = {
+    id: 0,
+    uuid: '',
+    code: '',
+    name: '',
+    quantity: 0,
+    unit: 'ชิ้น',
+    isActive: true,
+    isUpdate: true,
+    isEdited: false
+  } as MaterialEquipmentObj;
+
   return (
     <div>
-      
-      <CardCollapse title={"ผลการปฏิบัติงาน"}>
-      <DataTable 
-        columns={columns}
-        tableApi={MaterialEquipmentList}
-        tableApiData={{search: ''}} // ปรับตาม API ที่ใช้
-        emptyData={
+      <CardCollapse title={"รายการวัสดุอุปกรณ์"}>
+        <DataTableEditor 
+          columns={columns}
+          onUpdateData={handleUpdateData}
+          realData={materialEquipments}
+          rowItem={itemMaterialEquipment}
+          LabelAddRow="เพิ่มวัสดุอุปกรณ์"
+          onRemoveData={onRemoveData}
+          visibleDelete={true}
+        />
+        
+        {materialEquipments.length === 0 && (
           <div className="text-center py-8 text-gray-500">
             <p>ไม่พบข้อมูลวัสดุและอุปกรณ์</p>
           </div>
-        }
-      />
+        )}
       </CardCollapse>
     </div>
   );

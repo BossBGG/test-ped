@@ -1,171 +1,102 @@
-/* work_execution.tsx */
-import React, { useEffect, useRef } from "react";
+import React, { useState } from "react";
 import CardCollapse from "../CardCollapse";
 import OutputButton from "@/app/components/form/OutputButton";
-import { useAppSelector } from "@/app/redux/hook";
-import { MapPin, Navigation } from "lucide-react";
-
-declare global {
-  interface Window {
-    google: any;
-    initMap: () => void;
-  }
-}
+import InputDateButton from "@/app/components/form/InputDateButton";
+import Map from "./map";
 
 const WorkExecution = () => {
-  const screenSize = useAppSelector((state) => state.screen_size);
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstance = useRef<any>(null);
+  const [latitude, setLatitude] = useState(18.74499);
+  const [longitude, setLongitude] = useState(99.126769);
+  
+  // States for date inputs
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
-  const latitude = 18.74499;
-  const longitude = 99.126769;
-
-  useEffect(() => {
-    // Load Google Maps API
-    if (!window.google) {
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap`;
-      script.async = true;
-      script.defer = true;
-      
-      window.initMap = initializeMap;
-      document.head.appendChild(script);
-    } else {
-      initializeMap();
-    }
-
-    return () => {
-      // Cleanup
-      if (window.initMap) {
-        delete window.initMap;
-      }
-    };
-  }, []);
-
-  const initializeMap = () => {
-    if (mapRef.current && window.google) {
-      const mapOptions = {
-        center: { lat: latitude, lng: longitude },
-        zoom: 15,
-        mapTypeId: window.google.maps.MapTypeId.ROADMAP,
-        zoomControl: true,
-        mapTypeControl: false,
-        scaleControl: false,
-        streetViewControl: false,
-        rotateControl: false,
-        fullscreenControl: false,
-        styles: [
-          {
-            featureType: "poi",
-            elementType: "labels",
-            stylers: [{ visibility: "off" }]
-          }
-        ]
-      };
-
-      mapInstance.current = new window.google.maps.Map(mapRef.current, mapOptions);
-
-      // Add marker
-      new window.google.maps.Marker({
-        position: { lat: latitude, lng: longitude },
-        map: mapInstance.current,
-        title: "Current Location",
-        icon: {
-          url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="12" fill="#DC2626" stroke="white" stroke-width="4"/>
-              <circle cx="16" cy="16" r="4" fill="white"/>
-            </svg>
-          `),
-          scaledSize: new window.google.maps.Size(32, 32),
-          anchor: new window.google.maps.Point(16, 16)
-        }
-      });
-    }
-  };
-
-  const handleLocationCheck = () => {
-    // Handle location check/edit functionality
-    console.log("Check/Edit location clicked");
+  const handleLocationUpdate = (newLat: number, newLng: number) => {
+    setLatitude(newLat);
+    setLongitude(newLng);
   };
 
   return (
     <div>
-      <div className="">
-        <CardCollapse title={"ผลการปฏิบัติงาน"}>
-          <div className="p-4 flex flex-row justify-center">
-            {/* Top row - Coordinates */}
-            <div className="flex flex-col ">
-              <div className="">
-                <OutputButton label="Latitude" value={latitude.toString()} />
-              </div>
-              <div>
-                <OutputButton label="Longitude" value={longitude.toString()} />
-              </div>
-            </div>
-
-            {/* Second row - Date/Time */}
-            <div className="flex flex-col ">
-              <div>
-                <input 
-                type="data" 
-                className=""
+      <CardCollapse title={"ผลการปฏิบัติงาน"}>
+        <div className="p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            {/* Left Section - Coordinates and Date Inputs */}
+            <div className="space-y-4">
+              {/* Coordinates Row */}
+              <div className="grid grid-cols-2 gap-4">
+                <OutputButton 
+                  label="Latitude" 
+                  value={latitude.toString()} 
+                />
+                <OutputButton 
+                  label="Longitude" 
+                  value={longitude.toString()} 
                 />
               </div>
-              <div>
-                <input 
-                type="data" 
+
+              {/* Date Inputs */}
+              <div className="flex flex-row space-y-4 gap-4">
+                <InputDateButton
+                  label="วันที่และเวลาเริ่มปฏิบัติงาน"
+                  value={startDate}
+                  onChange={setStartDate}
+                  placeholder="เลือกวันที่"
+                  className="w-[275px]"
+                />
+                
+                <InputDateButton
+                  label="วันที่และเวลาปฏิบัติงานเสร็จ"
+                  value={endDate}
+                  onChange={setEndDate}
+                  placeholder="เลือกวันที่"
+                  className="w-[275px]"
                 />
               </div>
             </div>
 
-            {/* Map Container */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              {/* Map Header */}
-              <div className="flex flex-col items-start  p-4 border-b border-gray-200">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-gray-600" />
-                  <span className="text-gray-700 font-medium">แผนที่ / พิกัด</span>
-                </div>
-                <button 
-                  onClick={handleLocationCheck}
-                  className="flex items-center gap-2 px-4 py-2 mt-4 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors text-sm font-medium"
-                >
-                  <Navigation className="w-4 h-4" />
-                  ตรวจสอบ/แก้ไขตำแหน่ง
-              </button>
-              </div>
-
-              
-
-              {/* Map Content */}
-              <div className="relative">
-                <div 
-                  ref={mapRef}
-                  className="w-full h-80"
-                  style={{ minHeight: '320px' }}
-                >
-                  {/* Fallback content while map loads */}
-                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2"></div>
-                      <p className="text-gray-600">Loading Map...</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Coordinates Display Overlay */}
-                <div className="absolute bottom-4 left-4 bg-white bg-opacity-95 backdrop-blur-sm rounded-lg px-4 py-3 shadow-lg border border-gray-200">
-                  <div className="text-xs text-gray-600 mb-1 font-medium">Current Location</div>
-                  <div className="text-sm font-mono text-gray-800 font-medium">
-                    {latitude}, {longitude}
-                  </div>
-                </div>
-              </div>
+            {/* Right Section - Map */}
+            <div>
+              <Map 
+                latitude={latitude}
+                longitude={longitude}
+                onLocationUpdate={handleLocationUpdate}
+              />
             </div>
+            
           </div>
-        </CardCollapse>
-      </div>
+          
+          {/* Summary Section */}
+          {(startDate || endDate) && (
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <h4 className="font-medium text-gray-700 mb-2">สรุปข้อมูลการปฏิบัติงาน</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-600">เริ่มงาน:</span>
+                  <span className="ml-2 font-medium">
+                    {startDate ? startDate.toLocaleDateString('th-TH') : 'ยังไม่ระบุ'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-600">เสร็จงาน:</span>
+                  <span className="ml-2 font-medium">
+                    {endDate ? endDate.toLocaleDateString('th-TH') : 'ยังไม่ระบุ'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-600">พิกัด:</span>
+                  <span className="ml-2 font-medium">
+                    {latitude.toFixed(6)}, {longitude.toFixed(6)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+          
+        </div>
+      </CardCollapse>
     </div>
   );
 };

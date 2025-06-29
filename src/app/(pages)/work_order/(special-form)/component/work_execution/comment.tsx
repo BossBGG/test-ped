@@ -28,8 +28,8 @@ const Comment: React.FC<CommentProps> = ({
   const remainingChars = maxLength - comment.length;
 
   return (
-    <CardCollapse title="หมายเหตุเพิ่มเติม">
-      <div className="p-4">
+    
+      <div className="p-4 border-1 mb-4 rounded-lg shadow-md">
         <div className="space-y-2">
           <Label htmlFor="comment" className="text-sm font-medium text-gray-700">
             กรอกหมายเหตุเพิ่มเติม
@@ -61,7 +61,7 @@ const Comment: React.FC<CommentProps> = ({
           </div>
         )}
       </div>
-    </CardCollapse>
+  
   );
 };
 

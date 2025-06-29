@@ -111,38 +111,42 @@ const SatisfactionAssessment: React.FC<SatisfactionAssessmentProps> = ({ onDataC
 
         {/* Signature Section */}
         <div>
-          <div className="flex items-center justify-between mb-3">
-            <Label className="text-sm font-medium text-gray-700">
-              ลายเซ็นลูกค้า
-            </Label>
-            <Button
-              type="button"
-              onClick={handleSignatureClick}
-              className="bg-[#671FAB] hover:bg-[#5A1A96] text-white px-4 py-2 rounded-md text-sm"
-            >
-              <FontAwesomeIcon icon={faPen} className="mr-2" />
-              ภาพลายเซ็นลูกค้า
-            </Button>
-          </div>
-
-          {/* Signature Canvas/Display */}
-          <div className="border-2 border-dashed border-gray-300 rounded-lg h-32 flex items-center justify-center bg-gray-50">
-            {signature ? (
-              <div className="text-center">
-                <div className="text-2xl font-signature text-gray-700 mb-2">
-                  {/* Mock signature display */}
-                  <span style={{ fontFamily: 'cursive', fontSize: '24px' }}>
-                    ลายเซ็นลูกค้า
-                  </span>
+          <Label className="text-sm font-medium text-gray-700 mb-3 block">
+            ลายเซ็นลูกค้า
+          </Label>
+          
+          <div className="flex items-center gap-4">
+            {/* Signature Canvas/Display */}
+            <div className="flex-1 border-2 border-dashed border-gray-300 rounded-lg h-32 flex items-center justify-center bg-gray-50">
+              {signature ? (
+                <div className="text-center">
+                  <div className="text-2xl font-signature text-gray-700 mb-2">
+                    {/* Mock signature display */}
+                    <span style={{ fontFamily: 'cursive', fontSize: '24px' }}>
+                      ลายเซ็นลูกค้า
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500">ลายเซ็นอิเล็กทรอนิกส์</p>
                 </div>
-                <p className="text-xs text-gray-500">ลายเซ็นอิเล็กทรอนิกส์</p>
-              </div>
-            ) : (
-              <div className="text-center text-gray-400">
-                <FontAwesomeIcon icon={faPen} className="text-2xl mb-2" />
-                <p className="text-sm">คลิกปุ่มด้านบนเพื่อเซ็นชื่อ</p>
-              </div>
-            )}
+              ) : (
+                <div className="text-center text-gray-400">
+                  <FontAwesomeIcon icon={faPen} className="text-2xl mb-2" />
+                  <p className="text-sm">คลิกปุ่มด้านขวาเพื่อเซ็นชื่อ</p>
+                </div>
+              )}
+            </div>
+            
+            {/* Signature Button */}
+            <div className="flex-shrink-0">
+              <Button
+                type="button"
+                onClick={handleSignatureClick}
+                className="bg-[#671FAB] hover:bg-[#5A1A96] text-white px-4 py-2 rounded-md text-sm whitespace-nowrap"
+              >
+                <FontAwesomeIcon icon={faPen} className="mr-2" />
+                ภาพลายเซ็นลูกค้า
+              </Button>
+            </div>
           </div>
         </div>
 

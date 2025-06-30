@@ -41,6 +41,11 @@ const InputSelect = ({
     if (item?.length > 0) {
       setSelectedSubLabel(item[0].label)
     }
+    
+    // เพิ่มบรรทัดนี้เพื่ออัพเดทค่าไปยัง parent component
+    if(setData) {
+      setData(value)
+    }
   }
 
   const handleChangeSelect = (value: string) => {

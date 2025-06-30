@@ -13,10 +13,19 @@ import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/compone
 import {faFile, faPen, faScrewdriver, faUser} from "@fortawesome/pro-light-svg-icons";
 import WorkerList from "@/app/(pages)/work_order/(special-form)/component/worker/WorkerList";
 import MaterialEquipmentChecklistPage from "../component/material_equipment_checklist/material_equipment_checklist";
-
+import WorkExecution from "../component/work_execution/work_execution";
+import AddImages from "../component/work_execution/add_images";
+import AddFile from "../component/work_execution/add_file";
+import Comment from "../component/work_execution/comment";
+import SatisfactionAssessment from "../component/work_execution/satisfaction_assessment";
+import RecordKeeper from "../component/work_execution/record_keeper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/pro-light-svg-icons";
+import { useRouter } from "next/navigation";
 
 const ElectricalRepairOrderS301 = () => {
   const {setBreadcrumb} = useBreadcrumb()
+  const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
     customer_info: {} as Customer,
     electrical: [] as Electrical[],
@@ -52,6 +61,35 @@ const ElectricalRepairOrderS301 = () => {
     console.log('Selected Material Equipment IDs:', selectedIds);
   }
 
+  const handleGoBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    } else {
+      router.back();
+    }
+  }
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  }
+
+  const handleCancel = () => {
+    // Logic สำหรับยกเลิกใบสั่งงาน
+    router.push('/work_order');
+  }
+
+  const handleConfirm = () => {
+    // Logic สำหรับยืนยันสร้างใบสั่งงาน
+    console.log('Confirm create work order');
+  }
+
+  const handleComplete = () => {
+    // Logic สำหรับจบงาน
+    console.log('Complete work order');
+  }
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 0:
@@ -72,12 +110,88 @@ const ElectricalRepairOrderS301 = () => {
       
       case 2:
         return <MaterialEquipmentChecklistPage/>;
-      
-     
+
+      case 3:
+        return (
+          <div>
+            <WorkExecution/>
+            <ElectricalList data={data.electrical}
+                            updateData={updateElectrical}
+            />
+            <AddImages/>
+            <AddFile/>
+            <Comment/>
+            <SatisfactionAssessment/>
+            <RecordKeeper/>
+          </div>
+        );
       
       default:
         return null;
     }
+  }
+
+  const renderActionButtons = () => {
+    const commonButtonClass = "h-[44px] px-6 font-medium";
+    
+    return (
+      <div className="flex justify-between items-center mt-6">
+        {/* Left side buttons */}
+        <div className="flex items-center space-x-3">
+          <Button 
+            className={`${commonButtonClass} pea-button-outline`} 
+            variant="outline"
+            onClick={handleGoBack}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
+            ย้อนกลับ
+          </Button>
+          
+          
+        </div>
+
+        {/* Right side buttons */}
+        <div className="flex items-center space-x-3">
+          <Button 
+            className={`${commonButtonClass} cancel-button`} 
+            variant="outline"
+            onClick={handleCancel}
+          >
+            ยกเลิกใบสั่งงาน
+          </Button>
+
+          <Button 
+            className={`${commonButtonClass} pea-button-outline`} 
+            variant="outline"
+          >
+            บันทึก
+          </Button>
+          
+          {currentStep === 2 ? (
+            <Button 
+              className={`${commonButtonClass} pea-button`}
+              onClick={handleConfirm}
+            >
+              ยืนยันสร้างใบสั่งงาน
+            </Button>
+          ) : currentStep === 3 ? (
+            <Button 
+              className={`${commonButtonClass} pea-button`}
+              onClick={handleComplete}
+            >
+              จบงาน
+            </Button>
+          ) : (
+            <Button 
+              className={`${commonButtonClass} pea-button`}
+              onClick={handleNext}
+            >
+              ถัดไป
+            </Button>
+          )}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -92,10 +206,7 @@ const ElectricalRepairOrderS301 = () => {
 
       {renderCurrentStep()}
 
-      <div className="flex justify-end items-center">
-        <Button className="pea-button-outline mr-2" variant="outline">บันทึก</Button>
-        <Button className="pea-button">ถัดไป</Button>
-      </div>
+      {renderActionButtons()}
     </div>
   )
 }

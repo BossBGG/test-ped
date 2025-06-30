@@ -84,6 +84,38 @@ const WorkOrderInfo = ({data}: WorkOrderInfoProps) => {
                      disabled={true}
           />
         </div>
+
+        <div className="w-full md:w-1/4 p-2">
+          <InputText placeholder="กอง/กฟฟ."
+                     value={data.division}
+                     label="กอง/กฟฟ."
+                     disabled={true}
+          />
+        </div>
+
+        <div className="w-full md:w-1/4 p-2">
+          <InputText placeholder="รหัสโรงงาน"
+                     value={data.plant_code}
+                     label="รหัสโรงงาน"
+                     disabled={true}
+          />
+        </div>
+
+        <div className="w-full md:w-1/4 p-2">
+          <InputText placeholder="ศูนย์งาน"
+                     value={data.operation_center}
+                     label="ศูนย์งาน"
+                     disabled={true}
+          />
+        </div>
+
+        <div className="w-full md:w-1/4 p-2">
+          <InputText placeholder="ศูนย์ต่นทุน"
+                     value={data.cost_center}
+                     label="ศูนย์ต่นทุน"
+                     disabled={true}
+          />
+        </div>
       </div>
     </CardCollapse>
   )

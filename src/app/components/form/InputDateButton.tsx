@@ -18,58 +18,58 @@ interface InputDateButtonProps {
 }
 
 const InputDateButton: React.FC<InputDateButtonProps> = ({
-  label,
-  value,
-  onChange,
-  placeholder = "เลือกวันที่",
-  disabled = false,
-  className
+ label,
+ value,
+ onChange,
+ placeholder = "เลือกวันที่",
+ disabled = false,
+ className
 }) => {
-  const [open, setOpen] = useState(false);
+ const [open, setOpen] = useState(false);
 
-  return (
-    <div className={cn("flex flex-col space-y-2", className)}>
-      {label && (
-        <label className="text-sm font-medium text-gray-700">
-          {label}
-        </label>
-      )}
-      
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className={cn(
-              "w-full justify-start text-left font-normal h-[44px] px-4 border-[#D1D5DB] bg-white",
-              !value && "text-muted-foreground",
-              disabled && "opacity-50 cursor-not-allowed"
-            )}
-            disabled={disabled}
-          >
-            <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
-            {value ? (
-              format(value, "dd/MM/yyyy", { locale: th })
-            ) : (
-              <span>{placeholder}</span>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={value}
-            onSelect={(date) => {
-              onChange?.(date);
-              setOpen(false);
-            }}
-            disabled={disabled}
-            initialFocus
-            locale={th}
-          />
-        </PopoverContent>
-      </Popover>
-    </div>
-  );
+ return (
+   <div className={cn("flex flex-col space-y-2", className)}>
+     {label && (
+       <label className="text-sm font-medium text-gray-700">
+         {label}
+       </label>
+     )}
+     
+     <Popover open={open} onOpenChange={setOpen}>
+       <PopoverTrigger asChild>
+         <Button
+           variant="outline"
+           className={cn(
+             "w-full justify-start text-left font-normal h-[44px] px-4 border-[#D1D5DB] bg-white",
+             !value && "text-muted-foreground",
+             disabled && "opacity-50 cursor-not-allowed"
+           )}
+           disabled={disabled}
+         >
+           <FontAwesomeIcon icon={faCalendar} className="mr-2 h-4 w-4" />
+           {value ? (
+             format(value, "dd/MM/yyyy", { locale: th })
+           ) : (
+             <span>{placeholder}</span>
+           )}
+         </Button>
+       </PopoverTrigger>
+       <PopoverContent className="w-auto p-0" align="start">
+         <Calendar
+           mode="single"
+           selected={value}
+           onSelect={(date) => {
+             onChange?.(date);
+             setOpen(false);
+           }}
+           disabled={disabled}
+           initialFocus
+           locale={th}
+         />
+       </PopoverContent>
+     </Popover>
+   </div>
+ );
 };
 
 export default InputDateButton;

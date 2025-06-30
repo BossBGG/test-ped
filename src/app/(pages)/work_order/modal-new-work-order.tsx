@@ -100,7 +100,45 @@ const ModalNewWorkOrder = ({
 
   const submit = () => {
     showProgress()
-    router.push("/work_order/s301")
+    
+    // ตรวจสอบว่าเลือก serviceType แล้วหรือยัง
+    if (!data.serviceType) {
+      dismissAlert()
+      alert('กรุณาเลือกประเภทงานบริการก่อน')
+      return
+    }
+    
+    // ตรวจสอบว่าเป็น subOption หรือไม่ (ถ้าเลือกหมวดหลักต้องเลือก sub ด้วย)
+    const isMainCategory = ['1', '2', '3', '4'].includes(data.serviceType)
+    if (isMainCategory) {
+      dismissAlert()
+      alert('กรุณาเลือกประเภทงานบริการย่อย')
+      return
+    }
+    
+    const currentServiceType = data.serviceType
+    
+    // ตรวจสอบประเภทงานบริการที่เลือก
+    let targetPath = "/work_order/s301" 
+    
+    switch(currentServiceType) {
+      case '3_1': 
+      case '4_1': 
+        targetPath = "/work_order/s301"
+        break
+      case '3_2': 
+      case '4_2': 
+        targetPath = "/work_order/s302"
+        break
+      case '3_3': 
+      case '4_3': 
+        targetPath = "/work_order/s303"
+        break
+      default:
+        targetPath = "/work_order/s301"
+    }
+    
+    router.push(targetPath)
     setTimeout(() => {
       dismissAlert()
     }, 500)
@@ -108,9 +146,9 @@ const ModalNewWorkOrder = ({
 
   useEffect(() => {
     if (!data.sheetType) {
-      data.sheetType = workOrderTypeOptions[0].value;
+      setData(prevState => ({...prevState, sheetType: workOrderTypeOptions[0].value}));
     }
-  }, [data.sheetType])
+  }, [])
 
   const handleUpdateData = (key: string, value: string | string[]) => {
     console.log('value >>> ', value)
@@ -126,7 +164,7 @@ const ModalNewWorkOrder = ({
     >
       <InputRadio label="เลือกประเภทการสร้างใบงาน"
                   options={workOrderTypeOptions}
-                  value={data.sheetType}
+                  value={data.sheetType || workOrderTypeOptions[0].value}
                   setData={(v: string) => handleUpdateData('sheetType', v)}
                   classItem="rounded-[12px] p-3 w-full border-1"
                   classItemChecked="border-1 border-[#671FAB]"

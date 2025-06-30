@@ -115,7 +115,9 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution/>
-
+            <ElectricalList data={data.electrical}
+                            updateData={updateElectrical}
+            />
             <AddImages/>
             <AddFile/>
             <Comment/>

@@ -65,11 +65,6 @@ const MaterialEquipmentChecklistPage = () => {
           visibleDelete={true}
         />
         
-        {materialEquipments.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            <p>ไม่พบข้อมูลวัสดุและอุปกรณ์</p>
-          </div>
-        )}
       </CardCollapse>
     </div>
   );

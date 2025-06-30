@@ -24,7 +24,7 @@ const WorkExecution = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Left Section - Coordinates and Date Inputs */}
-            <div className="space-y-4">
+            <div className="space-y-4 ">
               {/* Coordinates Row */}
               <div className="grid grid-cols-2 gap-4">
                 <OutputButton 
@@ -38,13 +38,13 @@ const WorkExecution = () => {
               </div>
 
               {/* Date Inputs */}
-              <div className="flex flex-row space-y-4 gap-4">
+              <div className="flex flex-row space-y-4 gap-4  ">
                 <InputDateButton
                   label="วันที่และเวลาเริ่มปฏิบัติงาน"
                   value={startDate}
                   onChange={setStartDate}
                   placeholder="เลือกวันที่"
-                  className="w-[275px]"
+                  className="w-full"
                 />
                 
                 <InputDateButton
@@ -52,7 +52,7 @@ const WorkExecution = () => {
                   value={endDate}
                   onChange={setEndDate}
                   placeholder="เลือกวันที่"
-                  className="w-[275px]"
+                  className="w-full "
                 />
               </div>
             </div>

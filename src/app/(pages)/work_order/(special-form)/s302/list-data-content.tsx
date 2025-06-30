@@ -66,13 +66,15 @@ const ListDataContent = ({
           pageData.map((item, index) => (
             <Card key={index} className="p-3 mb-3 shadow-none">
               <CardContent>
-                <div className="flex justify-between">
+                <div className="flex flex-col">
                   <div>
                     <div>{index + 1}. {item.name}</div>
-                    <div>จำนวนหน่วย : {item.quantity}</div>
+                    
                   </div>
 
-                  <div className="flex justify-end items-center md:mt-0 mt-3">
+                  <div className="flex justify-between items-center md:mt-0 mt-3">
+                    <div>จำนวนหน่วย : {item.quantity}</div>
+                    <div className="flex flex-row justify-end">
                     {
                       item.isUpdate ?
                         <button
@@ -95,6 +97,7 @@ const ListDataContent = ({
                       onClick={() => deleteData(item.id || 0, index)}>
                       <FontAwesomeIcon icon={faTrashCan} size={"sm"} color="#E02424"/>
                     </button>
+                    </div>
                   </div>
                 </div>
               </CardContent>

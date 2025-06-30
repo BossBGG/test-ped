@@ -1,33 +1,32 @@
 'use client';
-import {Electrical, Options} from "@/types";
+import {MaterialEquipmentObj, Options} from "@/types";
 import {Card, CardContent} from "@/components/ui/card";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faPencil, faTrashCan} from "@fortawesome/pro-light-svg-icons";
 import React, {useEffect, useState} from "react";
-import {useAppSelector} from "@/app/redux/hook";
 
-interface ListDataContentProps {
-  realData: Electrical[],
-  pageData: Electrical[],
-  onUpdateData: (data: Electrical[]) => void,
+interface MaterialEquipmentListContentProps {
+  realData: MaterialEquipmentObj[],
+  pageData: MaterialEquipmentObj[],
+  onUpdateData: (data: MaterialEquipmentObj[]) => void,
   onRemoveData: (id: number) => void,
   setUpdateIndex: (index: number) => void,
   page: number,
   pageSize: number,
-  equipmentNameOptions: Options[]
+  materialOptions: Options[]
 }
 
-const ListDataContent = ({
-                           realData,
-                           pageData,
-                           onUpdateData,
-                           onRemoveData,
-                           setUpdateIndex,
-                           page,
-                           pageSize,
-                           equipmentNameOptions,
-                         }: ListDataContentProps) => {
-  const [data, setData] = useState<Electrical[]>([]);
+const MaterialEquipmentListContent = ({
+                                       realData,
+                                       pageData,
+                                       onUpdateData,
+                                       onRemoveData,
+                                       setUpdateIndex,
+                                       page,
+                                       pageSize,
+                                       materialOptions,
+                                     }: MaterialEquipmentListContentProps) => {
+  const [data, setData] = useState<MaterialEquipmentObj[]>([]);
 
   useEffect(() => {
     setData(pageData)
@@ -35,7 +34,7 @@ const ListDataContent = ({
 
   const handleUpdateData = (key: string, value: string | number | boolean | undefined, index: number) => {
     index = (page * pageSize) + index
-    const newData = realData.map((item: Electrical, idx) => {
+    const newData = realData.map((item: MaterialEquipmentObj, idx) => {
       let isEdited = item.isEdited;
       if(key === 'isUpdate' && value) {
         isEdited = true
@@ -58,6 +57,11 @@ const ListDataContent = ({
     id && onRemoveData(id);
   }
 
+  const getMaterialName = (code: string) => {
+    const material = materialOptions.find(m => m.value === code);
+    return material ? material.label : code;
+  }
+
   return (
     <div>
       {
@@ -66,26 +70,37 @@ const ListDataContent = ({
           pageData.map((item, index) => (
             <Card key={index} className="p-3 mb-3 shadow-none">
               <CardContent>
-                <div className="flex flex-col">
-                  <div>
-                    <div>{index + 1}. {item.name}</div>
+                <div className="flex justify-between">
+                  <div className="flex-1">
+                    <div className="font-medium text-lg mb-2">
+                      {index + 1}. {item.code || 'S-3H-044'} - {getMaterialName(item.code || 'หม้อแปลง3P5000KVA(ร่วม)')}
+                    </div>
                     
+                    <div className="space-y-1 text-sm text-gray-600">
+                      <div className="flex justify-between">
+                        <span>จำนวนหน่วย :</span>
+                        <span className="font-medium text-lg">{item.quantity || '2'}</span>
+                      </div>
+                      
+                      <div className="flex justify-between">
+                        <span>ราคาวัสดุ :</span>
+                        <span className="font-medium text-lg">{item.price ? `${Number(item.price).toLocaleString()}.00` : '2,000.00'}</span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="flex justify-between items-center md:mt-0 mt-3">
-                    <div>จำนวนหน่วย : {item.quantity}</div>
-                    <div className="flex flex-row justify-end">
+                  <div className="flex justify-end items-start md:mt-0 mt-3 space-x-2">
                     {
                       item.isUpdate ?
                         <button
-                          className="bg-[#C8F9E9] rounded-[8px] mr-2 p-2 flex items-center justify-center cursor-pointer"
+                          className="bg-[#C8F9E9] rounded-[8px] p-2 flex items-center justify-center cursor-pointer"
                           onClick={() => handleUpdateData('isUpdate', false, index)}
                         >
                           <FontAwesomeIcon icon={faCheckCircle} size={"sm"} color="#31C48D"/>
                         </button>
                         :
                         <button
-                          className="bg-[#FDE5B6] rounded-[8px] mr-2 w-[32px] h-[32px] flex items-center justify-center cursor-pointer"
+                          className="bg-[#FDE5B6] rounded-[8px] w-[32px] h-[32px] flex items-center justify-center cursor-pointer"
                           onClick={() => handleUpdateData('isUpdate', true, index)}
                         >
                           <FontAwesomeIcon icon={faPencil} size={"sm"} color="#F9AC12"/>
@@ -97,7 +112,6 @@ const ListDataContent = ({
                       onClick={() => deleteData(item.id || 0, index)}>
                       <FontAwesomeIcon icon={faTrashCan} size={"sm"} color="#E02424"/>
                     </button>
-                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -109,4 +123,4 @@ const ListDataContent = ({
   )
 }
 
-export default ListDataContent;
+export default MaterialEquipmentListContent;

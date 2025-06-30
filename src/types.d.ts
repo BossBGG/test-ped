@@ -115,9 +115,12 @@ type Electrical = {
 type WorkerObj = {
   isUpdate?: boolean;
   isEdited: boolean;
-  group: string
-  operation_center: string
-  id: number
-  hours: number
-  unit: string
+  group: string;
+  operation_center: string;
+  id: number;
+  hours: number | number;
+  unit: string;
+  worker_id?: string;  // เพิ่ม
+  worker?: string;     // เพิ่ม
+  event?: string;      // เพิ่ม
 }

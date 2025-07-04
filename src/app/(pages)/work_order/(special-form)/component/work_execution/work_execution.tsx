@@ -3,10 +3,12 @@ import CardCollapse from "../CardCollapse";
 import OutputButton from "@/app/components/form/OutputButton";
 import InputDateButton from "@/app/components/form/InputDateButton";
 import Map from "./map";
+import { useAppSelector } from "@/app/redux/hook";
 
 const WorkExecution = () => {
   const [latitude, setLatitude] = useState(18.74499);
   const [longitude, setLongitude] = useState(99.126769);
+  const screenSize = useAppSelector(state => state.screen_size);
   
   // States for date inputs
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
@@ -21,12 +23,12 @@ const WorkExecution = () => {
     <div>
       <CardCollapse title={"ผลการปฏิบัติงาน"}>
         <div className="p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={`${screenSize === 'mobile' ? 'flex flex-col space-y-6' : 'grid grid-cols-1 md:grid-cols-2 gap-6'}`}>
             
             {/* Left Section - Coordinates and Date Inputs */}
-            <div className="space-y-4 ">
+            <div className="space-y-4">
               {/* Coordinates Row */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className={`${screenSize === 'mobile' ? 'flex flex-col space-y-4' : 'grid grid-cols-2 gap-4'}`}>
                 <OutputButton 
                   label="Latitude" 
                   value={latitude.toString()} 
@@ -38,7 +40,7 @@ const WorkExecution = () => {
               </div>
 
               {/* Date Inputs */}
-              <div className="flex flex-row space-y-4 gap-4  ">
+              <div className={`${screenSize === 'mobile' ? 'flex flex-col space-y-4' : 'flex flex-row gap-4'}`}>
                 <InputDateButton
                   label="วันที่และเวลาเริ่มปฏิบัติงาน"
                   value={startDate}
@@ -52,7 +54,7 @@ const WorkExecution = () => {
                   value={endDate}
                   onChange={setEndDate}
                   placeholder="เลือกวันที่"
-                  className="w-full "
+                  className="w-full"
                 />
               </div>
             </div>
@@ -72,7 +74,7 @@ const WorkExecution = () => {
           {(startDate || endDate) && (
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
               <h4 className="font-medium text-gray-700 mb-2">สรุปข้อมูลการปฏิบัติงาน</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className={`${screenSize === 'mobile' ? 'flex flex-col space-y-2' : 'grid grid-cols-1 md:grid-cols-2 gap-4'} text-sm`}>
                 <div>
                   <span className="text-gray-600">เริ่มงาน:</span>
                   <span className="ml-2 font-medium">

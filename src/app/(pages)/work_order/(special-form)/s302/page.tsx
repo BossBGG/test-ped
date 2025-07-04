@@ -6,8 +6,7 @@ import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
-import ElectricalList from "@/app/(pages)/work_order/(special-form)/s301/electrical-list";
-import { Button } from "@/components/ui/button";
+
 import { useAppSelector } from "@/app/redux/hook";
 import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStepMobile";
 import {
@@ -24,9 +23,17 @@ import AddFile from "../component/work_execution/add_file";
 import Comment from "../component/work_execution/comment";
 import SatisfactionAssessment from "../component/work_execution/satisfaction_assessment";
 import RecordKeeper from "../component/work_execution/record_keeper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/pro-light-svg-icons";
 import { useRouter } from "next/navigation";
+
+
+import RatingAndComment from "../component/work_execution/RatingAndComment ";
+import SignatureSection from "../component/work_execution/signature_section";
+import CardCollapse from "../component/CardCollapse";
+import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
+import BusinessType from "../component/work_execution/business_type";
+
+
+
 
 const ElectricalRepairOrderS301 = () => {
   const { setBreadcrumb } = useBreadcrumb();
@@ -38,6 +45,13 @@ const ElectricalRepairOrderS301 = () => {
   } as WorkOrderObj);
   const screenSize = useAppSelector((state) => state.screen_size);
   const [currentStep, setCurrentStep] = useState(0);
+
+  // States for mobile satisfaction assessment
+  const [rating, setRating] = useState<number>(0);
+  const [comment, setComment] = useState<string>("");
+  const [customerSignature, setCustomerSignature] = useState<string>("");
+  const [recordKeeperSignature, setRecordKeeperSignature] = useState<string>("");
+
   const steps = [
     { name: "ข้อมูลลูกค้า", icon: faPen },
     { name: "ผู้ปฏิบัติงาน", icon: faUser },
@@ -48,8 +62,8 @@ const ElectricalRepairOrderS301 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน ขอซ่อมแซมอุปกรณ์ไฟฟ้า"}
-        path={"s301"}
+        title={"สร้างใบสั่งงาน ขอตรวจสอบและบำรุงรักษาสวิตซ์เกียร"}
+        path={"s302"}
       />
     );
   }, [setBreadcrumb]);
@@ -63,12 +77,6 @@ const ElectricalRepairOrderS301 = () => {
     data.electrical = value;
     setData(data);
     console.log("data >>> ", data);
-  };
-
-  // ฟังก์ชันสำหรับอัพเดท selectedItems กลับไปยัง parent component (ถ้าต้องการ)
-  const updateSelectedMaterialEquipment = (selectedIds: string[]) => {
-    // สามารถเก็บ selectedIds ไว้ใน state หรือส่งไปยัง API ได้
-    console.log("Selected Material Equipment IDs:", selectedIds);
   };
 
   const handleGoBack = () => {
@@ -100,6 +108,33 @@ const ElectricalRepairOrderS301 = () => {
     console.log("Complete work order");
   };
 
+  const handleSave = () => {
+    // Logic สำหรับบันทึก
+    console.log("Save work order");
+  };
+
+  // Handlers for mobile satisfaction assessment
+  const handleRatingChange = (newRating: number) => {
+    setRating(newRating);
+  };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newComment = e.target.value;
+    // Limit to 50 words for mobile
+    const words = newComment.trim().split(/\s+/);
+    if (words.length <= 50) {
+      setComment(newComment);
+    }
+  };
+
+  const handleCustomerSignatureChange = (newSignature: string) => {
+    setCustomerSignature(newSignature);
+  };
+
+  const handleRecordKeeperSignatureChange = (newSignature: string) => {
+    setRecordKeeperSignature(newSignature);
+  };
+
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 0:
@@ -110,10 +145,7 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
-            <ElectricalList
-              data={data.electrical}
-              updateData={updateElectrical}
-            />
+            <BusinessType/>
           </div>
         );
 
@@ -127,153 +159,79 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution />
-            <ElectricalList
-              data={data.electrical}
-              updateData={updateElectrical}
-            />
+            <BusinessType/>
+
             <AddImages />
             <AddFile />
             <Comment />
-            <SatisfactionAssessment />
-            <RecordKeeper />
+
+            {/* Render different components based on screen size */}
+            {screenSize === "mobile" ? (
+              <>
+                {/* Mobile version - separate components with CardCollapse */}
+                <CardCollapse title="ผลการประเมินความพึงพอใจของลูกค้าต่อการปฏิบัติงาน">
+                  <div className="p-4">
+                    <RatingAndComment
+                      rating={rating}
+                      comment={comment}
+                      onRatingChange={handleRatingChange}
+                      onCommentChange={handleCommentChange}
+                    />
+
+                    {/* Show word count for mobile (max 50 words) */}
+                    <div className="flex justify-end mt-2">
+                      <span
+                        className={`text-sm ${
+                          comment.trim().split(/\s+/).length > 45
+                            ? "text-red-500"
+                            : "text-gray-500"
+                        }`}
+                      >
+                        {
+                          comment
+                            .trim()
+                            .split(/\s+/)
+                            .filter((word) => word.length > 0).length
+                        }
+                        /50 คำ
+                      </span>
+                    </div>
+                  </div>
+                </CardCollapse>
+
+                <CardCollapse title="ลายเซ็นลูกค้า">
+                  <div className="p-4">
+                    <SignatureSection
+                      title="ภาพลายเซ็นลูกค้า"
+                      signature={customerSignature}
+                      onSignatureChange={handleCustomerSignatureChange}
+                    />
+                  </div>
+                </CardCollapse>
+
+                <CardCollapse title="ลายเซ็นผู้บันทึกปฏิบัติงาน">
+                  <div className="p-4">
+                    <SignatureSection
+                      title="ภาพลายเซ็นผู้บันทึกปฏิบัติงาน"
+                      signature={recordKeeperSignature}
+                      onSignatureChange={handleRecordKeeperSignatureChange}
+                    />
+                  </div>
+                </CardCollapse>
+              </>
+            ) : (
+              <>
+                {/* Desktop version - keep original components */}
+                <SatisfactionAssessment />
+                <RecordKeeper />
+              </>
+            )}
           </div>
         );
 
       default:
         return null;
     }
-  };
-
-  const renderActionButtons = () => {
-    const commonButtonClass = "h-[44px] px-6 font-medium";
-
-    // Mobile Layout
-    if (screenSize === "mobile") {
-      return (
-        <div className="flex flex-col space-y-3 mt-6">
-         
-          <div className="flex space-x-3">
-            <Button
-              className={`${commonButtonClass} pea-button-outline flex-1`}
-              variant="outline"
-              onClick={handleGoBack}
-            >
-              <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
-              ย้อนกลับ
-            </Button>
-
-            {currentStep === 2 ? (
-              <Button
-                className={`${commonButtonClass} pea-button flex-1  `}
-                onClick={handleConfirm}
-              >
-                ยืนยันสร้างใบสั่งงาน
-              </Button>
-            ) : currentStep === 3 ? (
-              <Button
-                className={`${commonButtonClass} pea-button flex-1`}
-                onClick={handleComplete}
-              >
-                จบงาน
-              </Button>
-            ) : (
-              <Button
-                className={`${commonButtonClass} pea-button flex-1`}
-                onClick={handleNext}
-              >
-                ถัดไป
-              </Button>
-            )}
-          </div>
-
-          {/* แถวที่สอง - บันทึก และ ยกเลิกใบสั่งงาน (ซ่อนใน step 0) */}
-          <div className="flex space-x-3">
-            <Button
-              className={`${commonButtonClass} pea-button-outline flex-1`}
-              variant="outline"
-            >
-              บันทึก
-            </Button>
-
-            
-          </div>
-
-          <div className="flex space-x-3">
-          
-            {/* ซ่อนปุ่ม "ยกเลิกใบสั่งงาน" ใน step 0 */}
-            {currentStep !== 0 && (
-              <Button
-                className={`${commonButtonClass} cancel-button flex-1`}
-                variant="outline"
-                onClick={handleCancel}
-              >
-                ยกเลิกใบสั่งงาน
-              </Button>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    // Desktop Layout (เดิม)
-    return (
-      <div className="flex justify-between items-center mt-6">
-        {/* Left side buttons */}
-        <div className="flex items-center space-x-3">
-          <Button
-            className={`${commonButtonClass} pea-button-outline`}
-            variant="outline"
-            onClick={handleGoBack}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} className="mr-2" />
-            ย้อนกลับ
-          </Button>
-        </div>
-
-        {/* Right side buttons */}
-        <div className="flex items-center space-x-3">
-          {currentStep !== 0 && (
-            <Button
-              className={`${commonButtonClass} cancel-button flex-1`}
-              variant="outline"
-              onClick={handleCancel}
-            >
-              ยกเลิกใบสั่งงาน
-            </Button>
-          )}
-
-          <Button
-            className={`${commonButtonClass} pea-button-outline`}
-            variant="outline"
-          >
-            บันทึก
-          </Button>
-
-          {currentStep === 2 ? (
-            <Button
-              className={`${commonButtonClass} pea-button`}
-              onClick={handleConfirm}
-            >
-              ยืนยันสร้างใบสั่งงาน
-            </Button>
-          ) : currentStep === 3 ? (
-            <Button
-              className={`${commonButtonClass} pea-button`}
-              onClick={handleComplete}
-            >
-              จบงาน
-            </Button>
-          ) : (
-            <Button
-              className={`${commonButtonClass} pea-button`}
-              onClick={handleNext}
-            >
-              ถัดไป
-            </Button>
-          )}
-        </div>
-      </div>
-    );
   };
 
   return (
@@ -296,7 +254,17 @@ const ElectricalRepairOrderS301 = () => {
 
       {renderCurrentStep()}
 
-      {renderActionButtons()}
+      
+      <WorkOrderActionButtons
+        currentStep={currentStep}
+        totalSteps={steps.length}
+        onGoBack={handleGoBack}
+        onNext={handleNext}
+        onCancel={handleCancel}
+        onConfirm={handleConfirm}
+        onComplete={handleComplete}
+        onSave={handleSave}
+      />
     </div>
   );
 };

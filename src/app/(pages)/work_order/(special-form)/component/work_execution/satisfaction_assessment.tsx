@@ -71,38 +71,27 @@ const SatisfactionAssessment: React.FC<SatisfactionAssessmentProps> = ({
     <CardCollapse title="ผลการประเมินความพึงพอใจของลูกค้าต่อการปฏิบัติงาน">
       <div className="p-4 space-y-6">
         {/* Main Layout with flex-row */}
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 justify-between">
           {/* Left side - Rating and Comment */}
+          <div className="lg:w-[54%]">
           <RatingAndComment
             rating={rating}
             comment={comment}
             onRatingChange={handleRatingChange}
             onCommentChange={handleCommentChange}
           />
-
+          </div>
           {/* Right side - Signature Section */}
+          
           <SignatureSection
             title="ภาพลายเซ็นลูกค้า"
             signature={signature}
             onSignatureChange={handleSignatureChange}
           />
+          
         </div>
 
-        {/* Summary */}
-        {(rating > 0 || comment || signature) && (
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h4 className="font-medium text-gray-700 mb-2">สรุปการประเมิน</h4>
-            <div className="space-y-1 text-sm text-gray-600">
-              {rating > 0 && (
-                <p>
-                  คะแนน: {rating}/5 ({getRatingText(rating)})
-                </p>
-              )}
-              {comment && <p>ความคิดเห็น: {comment}</p>}
-              {signature && <p>ลายเซ็น: ✓ เซ็นชื่อแล้ว</p>}
-            </div>
-          </div>
-        )}
+        
       </div>
     </CardCollapse>
   );

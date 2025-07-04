@@ -6,7 +6,7 @@ import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
-import ElectricalList from "@/app/(pages)/work_order/(special-form)/s301/electrical-list";
+import ElectricalList from "@/app/(pages)/work_order/(special-form)/s314/electrical-list";
 import { useAppSelector } from "@/app/redux/hook";
 import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStepMobile";
 import {
@@ -30,6 +30,8 @@ import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
+
+import InsulationDateSelector from "./InsulationDateSelector";
 
 
 
@@ -61,8 +63,8 @@ const ElectricalRepairOrderS301 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน ขอซ่อมแซมอุปกรณ์ไฟฟ้า"}
-        path={"s301"}
+        title={"สร้างใบสั่งงาน ขอเช่าฉนวนครอบสายไฟฟ้า"}
+        path={"s314"}
       />
     );
   }, [setBreadcrumb]);
@@ -144,10 +146,14 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
+            <InsulationDateSelector/>
+            
             <ElectricalList
               data={data.electrical}
               updateData={updateElectrical}
             />
+
+            
           </div>
         );
 
@@ -161,6 +167,7 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution />
+            <InsulationDateSelector/>
             <ElectricalList
               data={data.electrical}
               updateData={updateElectrical}

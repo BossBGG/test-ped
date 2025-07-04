@@ -110,9 +110,9 @@ const WorkOrderInfo = ({data}: WorkOrderInfoProps) => {
         </div>
 
         <div className="w-full md:w-1/4 p-2">
-          <InputText placeholder="ศูนย์ต่นทุน"
+          <InputText placeholder="ศูนย์ต้นทุน"
                      value={data.cost_center}
-                     label="ศูนย์ต่นทุน"
+                     label="ศูนย์ต้นทุน"
                      disabled={true}
           />
         </div>

@@ -21,7 +21,7 @@ const InputDateButton: React.FC<InputDateButtonProps> = ({
  label,
  value,
  onChange,
- placeholder = "เลือกวันที่",
+ placeholder = "Invalid Date",
  disabled = false,
  className
 }) => {

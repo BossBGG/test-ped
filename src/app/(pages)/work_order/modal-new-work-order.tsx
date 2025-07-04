@@ -58,6 +58,18 @@ const ModalNewWorkOrder = ({
         {label: 'S301 ขอซ่อมแซมอุปกรณ์ไฟฟ้า', value: '3_1'},
         {label: 'S302 ขอตรวจสอบและบำรุงรักษาสวิตซ์เกียร์', value: '3_2'},
         {label: 'S303 ขอตรวจสอบและบำรุงรักษาเคเบิล', value: '3_3'},
+        {label: 'S304 ขอตรวจสอบและบำรุงรักษารีเลย์', value: '3_4'},
+        {label: 'S305 ขอบำรุงรักษาหม้อแปลงไฟฟ้า', value: '3_5'},
+        {label: 'S306 ขอแก้ไขและบำรุงรักษาระบบจำหน่าย', value: '3_6'},
+        {label: 'S307 ขอแก้ไขและบำรุงรักษาระบบจำหน่ายโดย Hotline', value: '3_7'},
+        {label: 'S308 ขอตรวจสอบระบบไฟฟ้าพร้อมออกใบรับรอง', value: '3_8'},
+        {label: 'S309 ขอตรวจหาจุดร้อน/จุดสัมผัสทางไฟฟ้า', value: '3_9'},
+        {label: 'S310 ขอปรึกษาด้านวิศวกรรมไฟฟ้า/ตรวจรับรองระบบ', value: '3_10'},
+        {label: 'S311 ขอปรึกษาด้านวิศวกรรมและก่อสร้าง', value: '3_11'},
+        {label: 'S312 ขอทดสอบอุปกรณ์ไฟฟ้า', value: '3_12'},
+        {label: 'S314 ขอเช่าฉนวนครอบสายไฟฟ้า', value: '3_14'},
+        {label: 'S315 ขอเช่าหม้อแปลง', value: '3_15'},
+
       ]
     },
     {
@@ -66,6 +78,17 @@ const ModalNewWorkOrder = ({
         {label: 'S301 ขอซ่อมแซมอุปกรณ์ไฟฟ้า', value: '4_1'},
         {label: 'S302 ขอตรวจสอบและบำรุงรักษาสวิตซ์เกียร์', value: '4_2'},
         {label: 'S303 ขอตรวจสอบและบำรุงรักษาเคเบิล', value: '4_3'},
+        {label: 'S304 ขอตรวจสอบและบำรุงรักษารีเลย์', value: '4_4'},
+        {label: 'S305 ขอบำรุงรักษาหม้อแปลงไฟฟ้า', value: '4_5'},
+        {label: 'S306 ขอแก้ไขและบำรุงรักษาระบบจำหน่าย', value: '4_6'},
+        {label: 'S307 ขอแก้ไขและบำรุงรักษาระบบจำหน่ายโดย Hotline', value: '4_7'},
+        {label: 'S308 ขอตรวจสอบระบบไฟฟ้าพร้อมออกใบรับรอง', value: '4_8'},
+        {label: 'S309 ขอตรวจหาจุดร้อน/จุดสัมผัสทางไฟฟ้า', value: '4_9'},
+        {label: 'S310 ขอปรึกษาด้านวิศวกรรมไฟฟ้า/ตรวจรับรองระบบ', value: '4_10'},
+        {label: 'S311 ขอปรึกษาด้านวิศวกรรมและก่อสร้าง', value: '4_11'},
+        {label: 'S312 ขอทดสอบอุปกรณ์ไฟฟ้า', value: '4_12'},
+        {label: 'S314 ขอเช่าฉนวนครอบสายไฟฟ้า', value: '4_14'},
+        {label: 'S315 ขอเช่าหม้อแปลงขอเช่าหม้อแปลง', value: '4_15'},
       ]
     },
   ]
@@ -133,6 +156,50 @@ const ModalNewWorkOrder = ({
       case '3_3': 
       case '4_3': 
         targetPath = "/work_order/s303"
+        break
+      case '3_4': 
+      case '4_4': 
+        targetPath = "/work_order/s304"
+        break
+      case '3_5': 
+      case '4_5': 
+        targetPath = "/work_order/s305"
+        break
+      case '3_6': 
+      case '4_6': 
+        targetPath = "/work_order/s306"
+        break
+      case '3_7': 
+      case '4_7': 
+        targetPath = "/work_order/s307"
+        break
+      case '3_8': 
+      case '4_8': 
+        targetPath = "/work_order/s308"
+        break
+      case '3_9': 
+      case '4_9': 
+        targetPath = "/work_order/s309"
+        break
+      case '3_10': 
+      case '4_10': 
+        targetPath = "/work_order/s310"
+        break
+      case '3_11': 
+      case '4_11': 
+        targetPath = "/work_order/s311"
+        break
+      case '3_12': 
+      case '4_12': 
+        targetPath = "/work_order/s312"
+        break
+      case '3_14': 
+      case '4_14': 
+        targetPath = "/work_order/s314"
+        break
+      case '3_15': 
+      case '4_15': 
+        targetPath = "/work_order/s315"
         break
       default:
         targetPath = "/work_order/s301"

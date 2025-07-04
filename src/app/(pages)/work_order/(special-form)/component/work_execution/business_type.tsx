@@ -30,8 +30,8 @@ const BusinessType: React.FC<BusinessTypeProps> = ({ value, onChange }) => {
   };
 
   return (
-    <CardCollapse title="ประเภทธุรกิจ">
-      <div className="p-4">
+    
+      <div className="p-4 border-1 mb-4 rounded-lg shadow-md ">
         <div className="space-y-2">
           <Label htmlFor="business-type" className="text-sm font-medium text-gray-700">
             ประเภทธุรกิจ
@@ -60,7 +60,7 @@ const BusinessType: React.FC<BusinessTypeProps> = ({ value, onChange }) => {
           </div>
         )}
       </div>
-    </CardCollapse>
+  
   );
 };
 

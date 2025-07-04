@@ -6,7 +6,7 @@ import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
-import ElectricalList from "@/app/(pages)/work_order/(special-form)/s301/electrical-list";
+
 import { useAppSelector } from "@/app/redux/hook";
 import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStepMobile";
 import {
@@ -30,6 +30,10 @@ import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
+import BusinessType from "../component/work_execution/business_type";
+import TransformerDateSelector from "./TransformerDateSelector";
+import ElectricalList from "../s315/electrical-list";
+
 
 
 
@@ -61,8 +65,8 @@ const ElectricalRepairOrderS301 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน ขอซ่อมแซมอุปกรณ์ไฟฟ้า"}
-        path={"s301"}
+        title={"สร้างใบสั่งงาน ขอเช่าหม้อแปลง"}
+        path={"s315"}
       />
     );
   }, [setBreadcrumb]);
@@ -144,6 +148,9 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
+            <BusinessType/>
+            <TransformerDateSelector/>
+
             <ElectricalList
               data={data.electrical}
               updateData={updateElectrical}
@@ -161,10 +168,12 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution />
+            <BusinessType/>
             <ElectricalList
               data={data.electrical}
               updateData={updateElectrical}
             />
+            <TransformerDateSelector/>
             <AddImages />
             <AddFile />
             <Comment />
@@ -258,7 +267,7 @@ const ElectricalRepairOrderS301 = () => {
 
       {renderCurrentStep()}
 
-      {/* แทนที่ {renderActionButtons()} ด้วย WorkOrderActionButtons */}
+      
       <WorkOrderActionButtons
         currentStep={currentStep}
         totalSteps={steps.length}

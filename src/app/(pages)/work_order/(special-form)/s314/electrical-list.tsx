@@ -2,13 +2,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/pro-light-svg-icons";
 import React, {useEffect, useState} from "react";
 import {DataTableEditor} from "@/app/components/editor-table/DataTableEditor";
-import {columns} from "@/app/(pages)/work_order/(special-form)/s301/columns";
+import {columns} from "@/app/(pages)/work_order/(special-form)/s314/columns";
 import {useAppSelector} from "@/app/redux/hook";
 import {Electrical} from "@/types";
 import {ListDataEditor} from "@/app/components/editor-table/ListDataEditor";
-import ListDataContent from "@/app/(pages)/work_order/(special-form)/s301/list-data-content";
+import ListDataContent from "@/app/(pages)/work_order/(special-form)/s314/list-data-content";
 import {Button} from "@/components/ui/button";
-import ModalEquipments from "@/app/(pages)/work_order/(special-form)/s301/modal-equipments";
+import ModalEquipments from "@/app/(pages)/work_order/(special-form)/s314/modal-equipments";
 import CardCollapse from "@/app/(pages)/work_order/(special-form)/component/CardCollapse";
 
 interface ElectricalListProps {
@@ -62,7 +62,7 @@ const ElectricalList = ({
   }
 
   return (
-    <CardCollapse title={'รายการอุปกรณ์ไฟฟ้า'}>
+    <CardCollapse title={'รายละเอียดหม้อแปลง'}>
       {
         screenSize === 'desktop'
           ? <DataTableEditor columns={columns}
@@ -70,7 +70,7 @@ const ElectricalList = ({
                              visibleDelete={true}
                              rowItem={itemElectrical}
                              realData={electricals}
-                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่มประเภทอุปกรณ์ไฟฟ้า' : undefined}
+                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่ม' : undefined}
                              onRemoveData={onRemoveData}/>
           : <ListDataEditor onUpdateData={handleUpdateData}
                             realData={electricals}
@@ -95,7 +95,7 @@ const ElectricalList = ({
                           onClick={() => setOpenModal(true)}
                   >
                     <FontAwesomeIcon icon={faPlus} className="mr-2"/>
-                    เพิ่มวัสดุอุปกรณ์
+                    เพิ่ม
                   </Button>
                 </div>
             }

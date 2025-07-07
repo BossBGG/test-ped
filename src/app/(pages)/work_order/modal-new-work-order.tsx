@@ -69,7 +69,18 @@ const ModalNewWorkOrder = ({
         {label: 'S312 ขอทดสอบอุปกรณ์ไฟฟ้า', value: '3_12'},
         {label: 'S314 ขอเช่าฉนวนครอบสายไฟฟ้า', value: '3_14'},
         {label: 'S315 ขอเช่าหม้อแปลง', value: '3_15'},
-
+        {label: 'S316 ขอเช่าเครื่องกำเนิดไฟฟ้า', value: '3_16'},
+        {label: 'S317 ขอติดตั้งมิเตอร์เปรียบเทียบ TOU', value: '3_17'},
+        {label: 'S318 ขอซื้อมิเตอร์/อุปกรณ์ไฟฟ้า', value: '3_18'},
+        {label: 'S319 ขอซื้อข้อมูล Load Profile', value: '3_19'},
+        {label: 'S320 ขอติดตั้งมิเตอร์เปรียบเทียบ กรณีผิดปกต', value: '3_20'},
+        {label: 'S322 ขอตรวจสอบและบำรุงรักษาระบบไฟฟ้า แบบครบวงจร', value: '3_22'},
+        {label: 'S323 ขอทดสอบผลิตภัณฑ์คอนกรีต', value: '3_23'},
+        {label: 'S329 ขอซื้อขายใบรับรองการผลิตพลังงานหมุนเวียน', value: '3_29'},
+        {label: 'S399 ขอบริการอื่นๆ', value: '3_99'},
+        {label: 'S332 Solar Battery', value: '3_32-solar-battery'},
+        {label: 'S332 Solar Air Conditioner', value: '3_32-solar-air-conditioner'},
+        
       ]
     },
     {
@@ -89,6 +100,17 @@ const ModalNewWorkOrder = ({
         {label: 'S312 ขอทดสอบอุปกรณ์ไฟฟ้า', value: '4_12'},
         {label: 'S314 ขอเช่าฉนวนครอบสายไฟฟ้า', value: '4_14'},
         {label: 'S315 ขอเช่าหม้อแปลงขอเช่าหม้อแปลง', value: '4_15'},
+        {label: 'S316 ขอเช่าเครื่องกำเนิดไฟฟ้า', value: '4_16'},
+        {label: 'S317 ขอติดตั้งมิเตอร์เปรียบเทียบ TOU', value: '4_17'},
+        {label: 'S318 ขอซื้อมิเตอร์/อุปกรณ์ไฟฟ้า', value: '4_18'},
+        {label: 'S319 ขอซื้อข้อมูล Load Profile', value: '4_19'},
+        {label: 'S320 ขอติดตั้งมิเตอร์เปรียบเทียบ กรณีผิดปกต', value: '4_20'},
+        {label: 'S322 ขอตรวจสอบและบำรุงรักษาระบบไฟฟ้า แบบครบวงจร', value: '4_22'},
+        {label: 'S323 ขอทดสอบผลิตภัณฑ์คอนกรีต', value: '4_23'},
+        {label: 'S329 ขอซื้อขายใบรับรองการผลิตพลังงานหมุนเวียน', value: '4_29'},
+        {label: 'S399 ขอบริการอื่นๆ', value: '4_99'},
+        {label: 'S332 Solar Battery', value: '4_32-solar-battery'},
+        {label: 'S332 Solar Air Conditioner', value: '4_32-solar-air-conditioner'},
       ]
     },
   ]
@@ -200,6 +222,50 @@ const ModalNewWorkOrder = ({
       case '3_15': 
       case '4_15': 
         targetPath = "/work_order/s315"
+        break
+      case '3_16': 
+      case '4_16': 
+        targetPath = "/work_order/s316"
+        break
+      case '3_17': 
+      case '4_17': 
+        targetPath = "/work_order/s317"
+        break
+      case '3_18': 
+      case '4_18': 
+        targetPath = "/work_order/s318"
+        break
+      case '3_19': 
+      case '4_19': 
+        targetPath = "/work_order/s319"
+        break
+      case '3_20': 
+      case '4_20': 
+        targetPath = "/work_order/s320"
+        break
+      case '3_22': 
+      case '4_22': 
+        targetPath = "/work_order/s322"
+        break
+      case '3_23': 
+      case '4_23': 
+        targetPath = "/work_order/s323"
+        break
+      case '3_29': 
+      case '4_29': 
+        targetPath = "/work_order/s329"
+        break
+      case '3_99': 
+      case '4_99': 
+        targetPath = "/work_order/s399"
+        break
+      case '3_32-solar-battery': 
+      case '4_32-solar-battery': 
+        targetPath = "/work_order/s332-solar-battery"
+        break
+      case '3_32-solar-air-conditioner': 
+      case '4_32-solar-air-conditioner': 
+        targetPath = "/work_order/s332-solar-air-conditioner"
         break
       default:
         targetPath = "/work_order/s301"

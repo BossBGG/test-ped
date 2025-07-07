@@ -63,8 +63,8 @@ const ElectricalRepairOrderS301 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน ขอซื้อข้อมูล Load Profile"}
-        path={"s319"}
+        title={"สร้างใบสั่งงาน ขอตรวจสอบและบำรุงรักษาระบบไฟฟ้า แบบครบวงจร"}
+        path={"s322"}
       />
     );
   }, [setBreadcrumb]);

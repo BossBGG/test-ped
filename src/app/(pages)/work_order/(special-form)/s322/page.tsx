@@ -25,18 +25,14 @@ import SatisfactionAssessment from "../component/work_execution/satisfaction_ass
 import RecordKeeper from "../component/work_execution/record_keeper";
 import { useRouter } from "next/navigation";
 
-
 import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
-import BusinessType from "../component/work_execution/business_type";
+import BusinessTypePackage from "./BusinessTypePackage";
 
 
-
-
-
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS322 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -47,11 +43,15 @@ const ElectricalRepairOrderS301 = () => {
   const screenSize = useAppSelector((state) => state.screen_size);
   const [currentStep, setCurrentStep] = useState(0);
 
+  // เพิ่ม state สำหรับ selectedPackage
+  const [selectedPackage, setSelectedPackage] = useState<string>("");
+
   // States for mobile satisfaction assessment
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [customerSignature, setCustomerSignature] = useState<string>("");
-  const [recordKeeperSignature, setRecordKeeperSignature] = useState<string>("");
+  const [recordKeeperSignature, setRecordKeeperSignature] =
+    useState<string>("");
 
   const steps = [
     { name: "ข้อมูลลูกค้า", icon: faPen },
@@ -60,6 +60,7 @@ const ElectricalRepairOrderS301 = () => {
     { name: "ผลปฏิบัติงาน", icon: faFile },
   ];
 
+  // เพิ่ม useEffect สำหรับ setBreadcrumb
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
@@ -70,13 +71,17 @@ const ElectricalRepairOrderS301 = () => {
   }, [setBreadcrumb]);
 
   const updateCustomerInfo = (value: Customer) => {
-    data.customer_info = value;
-    setData(data);
+    setData(prev => ({
+      ...prev,
+      customer_info: value
+    }));
   };
 
   const updateElectrical = (value: Electrical[]) => {
-    data.electrical = value;
-    setData(data);
+    setData(prev => ({
+      ...prev,
+      electrical: value
+    }));
     console.log("data >>> ", data);
   };
 
@@ -101,17 +106,18 @@ const ElectricalRepairOrderS301 = () => {
 
   const handleConfirm = () => {
     // Logic สำหรับยืนยันสร้างใบสั่งงาน
-    console.log("Confirm create work order");
+    console.log("Confirm create work order S322");
+    console.log("Selected package:", selectedPackage);
   };
 
   const handleComplete = () => {
     // Logic สำหรับจบงาน
-    console.log("Complete work order");
+    console.log("Complete work order S322");
   };
 
   const handleSave = () => {
     // Logic สำหรับบันทึก
-    console.log("Save work order");
+    console.log("Save work order S322");
   };
 
   // Handlers for mobile satisfaction assessment
@@ -146,21 +152,42 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
-            <BusinessType/>
+            <BusinessTypePackage
+              currentStep={currentStep}
+              value={selectedPackage}
+              onChange={(value) => setSelectedPackage(value)}
+            />
           </div>
         );
 
       case 1:
-        return <WorkerList data={data.workers} />;
+        return (
+          <div>
+            <WorkerList data={data.workers} />
+            
+            
+          </div>
+        );
 
       case 2:
-        return <MaterialEquipmentChecklistPage />;
+        return (
+          <div>
+            <MaterialEquipmentChecklistPage />
+            
+            
+          </div>
+        );
 
       case 3:
         return (
           <div>
             <WorkExecution />
-            <BusinessType/>
+            
+            <BusinessTypePackage
+              currentStep={currentStep}
+              value={selectedPackage}
+              onChange={(value) => setSelectedPackage(value)}
+            />
 
             <AddImages />
             <AddFile />
@@ -255,7 +282,6 @@ const ElectricalRepairOrderS301 = () => {
 
       {renderCurrentStep()}
 
-      
       <WorkOrderActionButtons
         currentStep={currentStep}
         totalSteps={steps.length}
@@ -270,4 +296,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS322;

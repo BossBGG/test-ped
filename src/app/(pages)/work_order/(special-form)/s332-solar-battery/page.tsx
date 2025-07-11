@@ -61,7 +61,7 @@ const ElectricalRepairOrderS301 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน Solar Battery"}
+        title={"สร้างใบสั่งงาน ขอตรวจสอบและบำรุงรักษาระบบไฟฟ้า แบบครบวงจร (Package)"}
         path={"s332-solar-battery"}
       />
     );

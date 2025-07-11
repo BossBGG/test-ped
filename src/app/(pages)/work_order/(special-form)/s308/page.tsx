@@ -25,15 +25,13 @@ import SatisfactionAssessment from "../component/work_execution/satisfaction_ass
 import RecordKeeper from "../component/work_execution/record_keeper";
 import { useRouter } from "next/navigation";
 
-
 import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
 import BusinessType from "../component/work_execution/business_type";
-
-
-
+import TransformerList from "./transformer-list";
+import TransformerSize from "./TransformerSize";
 
 const ElectricalRepairOrderS301 = () => {
   const { setBreadcrumb } = useBreadcrumb();
@@ -50,7 +48,8 @@ const ElectricalRepairOrderS301 = () => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [customerSignature, setCustomerSignature] = useState<string>("");
-  const [recordKeeperSignature, setRecordKeeperSignature] = useState<string>("");
+  const [recordKeeperSignature, setRecordKeeperSignature] =
+    useState<string>("");
 
   const steps = [
     { name: "ข้อมูลลูกค้า", icon: faPen },
@@ -144,8 +143,11 @@ const ElectricalRepairOrderS301 = () => {
               data={data.customer_info}
               updateData={updateCustomerInfo}
             />
-
-            <BusinessType/>
+            <TransformerSize />
+            <TransformerList
+              data={data.electrical}
+              updateData={updateElectrical}
+            />
           </div>
         );
 
@@ -159,7 +161,13 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution />
-            <BusinessType/>
+
+            <TransformerSize />
+
+            <TransformerList
+              data={data.electrical}
+              updateData={updateElectrical}
+            />
 
             <AddImages />
             <AddFile />
@@ -254,7 +262,6 @@ const ElectricalRepairOrderS301 = () => {
 
       {renderCurrentStep()}
 
-      
       <WorkOrderActionButtons
         currentStep={currentStep}
         totalSteps={steps.length}

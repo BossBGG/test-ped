@@ -6,7 +6,7 @@ import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
-import ElectricalList from "@/app/(pages)/work_order/(special-form)/s312/electrical-list";
+
 import { useAppSelector } from "@/app/redux/hook";
 import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStepMobile";
 import {
@@ -30,6 +30,8 @@ import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
+
+import TypeElectricalList from "@/app/(pages)/work_order/(special-form)/s312/type-electrical-list";
 import BusinessType from "../component/work_execution/business_type";
 
 
@@ -145,14 +147,14 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
+            <BusinessType/>
             
-            
-            <ElectricalList
+            <TypeElectricalList
               data={data.electrical}
               updateData={updateElectrical}
             />
 
-            <BusinessType/>
+            
           </div>
         );
 
@@ -167,7 +169,7 @@ const ElectricalRepairOrderS301 = () => {
           <div>
             <WorkExecution />
             <BusinessType/>
-            <ElectricalList
+            <TypeElectricalList
               data={data.electrical}
               updateData={updateElectrical}
             />

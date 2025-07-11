@@ -31,7 +31,6 @@ const AddWorker = ({
   worker: '',
   operation_center: '',
   event: '',
-  hours: '',
   unit: ''
 });
 
@@ -69,7 +68,6 @@ const AddWorker = ({
       worker: '',
       operation_center: '',
       event: '',
-      hours: '',
       unit: ''
     });
     
@@ -83,7 +81,6 @@ const AddWorker = ({
       worker: '',
       operation_center: '',
       event: '',
-      hours: '',
       unit: ''
     });
     onClose();

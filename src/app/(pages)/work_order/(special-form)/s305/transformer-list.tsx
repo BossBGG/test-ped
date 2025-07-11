@@ -4,49 +4,49 @@ import React, {useEffect, useState} from "react";
 import {DataTableEditor} from "@/app/components/editor-table/DataTableEditor";
 import {columns} from "@/app/(pages)/work_order/(special-form)/s305/columns";
 import {useAppSelector} from "@/app/redux/hook";
-import {Electrical} from "@/types";
+import {Transformer} from "@/types";
 import {ListDataEditor} from "@/app/components/editor-table/ListDataEditor";
 import ListDataContent from "@/app/(pages)/work_order/(special-form)/s305/list-data-content";
 import {Button} from "@/components/ui/button";
 import ModalEquipments from "@/app/(pages)/work_order/(special-form)/s305/modal-equipments";
 import CardCollapse from "@/app/(pages)/work_order/(special-form)/component/CardCollapse";
 
-interface ElectricalListProps {
-  data: Electrical[],
-  updateData: (data: Electrical[]) => void;
+interface TransformerListProps {
+  data: Transformer [],
+  updateData: (data: Transformer []) => void;
 }
 
-const ElectricalList = ({
+const TransformerList = ({
                           data,
                           updateData
-                        }: ElectricalListProps) => {
-  const itemElectrical = {
+                        }: TransformerListProps) => {
+  const itemTransformer = {
     id: 0,
     name: '',
     quantity: 0,
     isUpdate: true,
     isEdited: false
-  } as Electrical;
+  } as Transformer ;
 
-  const [electricals, setElectrical] = useState<Electrical[]>(data)
+  const [transformers, setTransformers] = useState<Transformer []>(data)
   const screenSize = useAppSelector(state => state.screen_size)
   const [removeIds, setRemoveIds] = useState<number[]>([]);
   const [openModal, setOpenModal] = React.useState(false);
   const [updateIndex, setUpdateIndex] = React.useState(-1);
 
-  const equipmentNameOptions = [
-    {label: 'METER (E) WATTHOUR 1P 5(100) A O/D BLE', value: 'METER (E) WATTHOUR 1P 5(100) A O/D BLE'},
-    {label: 'METER (E) WATTHOUR 1P 1(500', value: 'METER (E) WATTHOUR 1P 1(500'}
+  const transformerNameOptions = [
+    {label: 'หม้อแปลง3P5000KVA(รายปี)', value: 'หม้อแปลง3P5000KVA(รายปี)'},
+  
   ]
 
   useEffect(() => {
     if (screenSize !== 'desktop') {
-      let newElectricals: Electrical[] = electricals.map((item) => {
+      let newTransformers: Transformer [] = transformers.map((item) => {
         return {...item, isUpdate: false};
       })
 
-      console.log('newElectricals >>> ', newElectricals)
-      setElectrical(newElectricals)
+      console.log('newTransformers >>> ', newTransformers)
+      setTransformers(newTransformers)
     }
   }, [screenSize]);
 
@@ -56,8 +56,8 @@ const ElectricalList = ({
     ))
   }
 
-  const handleUpdateData = (data: Electrical[]) => {
-    setElectrical(data)
+  const handleUpdateData = (data: Transformer []) => {
+    setTransformers(data)
     updateData(data)
   }
 
@@ -68,22 +68,22 @@ const ElectricalList = ({
           ? <DataTableEditor columns={columns}
                              onUpdateData={handleUpdateData}
                              visibleDelete={true}
-                             rowItem={itemElectrical}
-                             realData={electricals}
-                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่ม' : undefined}
+                             rowItem={itemTransformer}
+                             realData={transformers}
+                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่มหม้อแปลง' : undefined}
                              onRemoveData={onRemoveData}/>
           : <ListDataEditor onUpdateData={handleUpdateData}
-                            realData={electricals}
+                            realData={transformers}
           >
             {
-              (pageData: Electrical[], page, pageSize) =>
+              (pageData: Transformer [], page, pageSize) =>
                 <div>
                   <ListDataContent pageData={pageData}
-                                   realData={electricals}
+                                   realData={transformers}
                                    page={page}
                                    pageSize={pageSize}
                                    onUpdateData={handleUpdateData}
-                                   equipmentNameOptions={equipmentNameOptions}
+                                   equipmentNameOptions={transformerNameOptions}
                                    onRemoveData={onRemoveData}
                                    setUpdateIndex={(index) => {
                                      setUpdateIndex(index)
@@ -95,7 +95,7 @@ const ElectricalList = ({
                           onClick={() => setOpenModal(true)}
                   >
                     <FontAwesomeIcon icon={faPlus} className="mr-2"/>
-                    เพิ่ม
+                    เพิ่มหม้อแปลง
                   </Button>
                 </div>
             }
@@ -110,4 +110,4 @@ const ElectricalList = ({
   )
 }
 
-export default ElectricalList;
+export default TransformerList;

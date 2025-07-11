@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes, faX } from "@fortawesome/pro-light-svg-icons";
 import { useAppSelector } from "@/app/redux/hook";
@@ -16,7 +21,7 @@ import {
   useReactTable,
   getCoreRowModel,
   flexRender,
-  ColumnDef
+  ColumnDef,
 } from "@tanstack/react-table";
 
 // Types
@@ -51,7 +56,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: false
+    package4: false,
   },
   {
     id: 2,
@@ -59,7 +64,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 3,
@@ -67,7 +72,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 4,
@@ -75,7 +80,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 5,
@@ -83,7 +88,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 6,
@@ -91,7 +96,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 7,
@@ -99,7 +104,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 8,
@@ -107,7 +112,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: false,
     package3: false,
-    package4: false
+    package4: false,
   },
   {
     id: 9,
@@ -115,7 +120,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 10,
@@ -123,7 +128,7 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: true
+    package4: true,
   },
   {
     id: 11,
@@ -131,37 +136,107 @@ const packageFeatures: PackageFeature[] = [
     package1: true,
     package2: true,
     package3: true,
-    package4: false
-  }
+    package4: false,
+  },
 ];
 
 const packages: PackageData[] = [
-  { id: "package1", name: "Package 1", price: 35000, features: packageFeatures },
-  { id: "package2", name: "Package 2", price: 25000, features: packageFeatures },
-  { id: "package3", name: "Package 3", price: 20000, features: packageFeatures },
-  { id: "package4", name: "Package 4", price: 10000, features: packageFeatures }
+  {
+    id: "package1",
+    name: "Package 1",
+    price: 35000,
+    features: packageFeatures,
+  },
+  {
+    id: "package2",
+    name: "Package 2",
+    price: 25000,
+    features: packageFeatures,
+  },
+  {
+    id: "package3",
+    name: "Package 3",
+    price: 20000,
+    features: packageFeatures,
+  },
+  {
+    id: "package4",
+    name: "Package 4",
+    price: 10000,
+    features: packageFeatures,
+  },
 ];
 
+// Extended PackageFeature interface for table data
+interface ExtendedPackageFeature extends PackageFeature {
+  type: "feature" | "price";
+}
+
+// Create data with price row at the end - moved inside component
+const createTableData = (): ExtendedPackageFeature[] => {
+  const featuresData: ExtendedPackageFeature[] = packageFeatures.map(
+    (feature) => ({
+      ...feature,
+      type: "feature" as const,
+    })
+  );
+
+  // Add price row
+  const priceRow: ExtendedPackageFeature = {
+    id: 999,
+    name: "ราคา",
+    package1: true,
+    package2: true,
+    package3: true,
+    package4: true,
+    type: "price" as const,
+  };
+
+  return [...featuresData, priceRow];
+};
+
 // Table Columns Definition
-const packageColumns: ColumnDef<PackageFeature>[] = [
+const packageColumns: ColumnDef<ExtendedPackageFeature>[] = [
   {
     accessorKey: "id",
     header: "ลำดับที่",
     cell: ({ row }) => {
-      return <div className="text-center font-medium">{row.getValue("id")}</div>
+      if (row.original.type === "price") {
+        return <div className="text-center font-bold"></div>;
+      }
+      return (
+        <div className="text-center font-medium">{row.getValue("id")}</div>
+      );
     },
   },
   {
     accessorKey: "name",
     header: "กิจกรรม",
     cell: ({ row }) => {
-      return <div className="text-left">{row.getValue("name")}</div>
-    }
+      if (row.original.type === "price") {
+        return (
+          <div className="text-left font-bold ">{row.getValue("name")}</div>
+        );
+      }
+      return <div className="text-left">{row.getValue("name")}</div>;
+    },
   },
   {
     accessorKey: "package1",
     header: "Package 1",
     cell: ({ row }) => {
+      if (row.original.type === "price") {
+        const package1Price =
+          packages.find((p) => p.id === "package1")?.price || 0;
+        return (
+          <div className="flex justify-center">
+            <div className="px-3 py-1 rounded-full font-bold">
+              {package1Price.toLocaleString()}
+            </div>
+          </div>
+        );
+      }
+
       const isIncluded = row.getValue("package1") as boolean;
       return (
         <div className="flex justify-center">
@@ -176,12 +251,24 @@ const packageColumns: ColumnDef<PackageFeature>[] = [
           )}
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "package2",
     header: "Package 2",
     cell: ({ row }) => {
+      if (row.original.type === "price") {
+        const package2Price =
+          packages.find((p) => p.id === "package2")?.price || 0;
+        return (
+          <div className="flex justify-center">
+            <div className="px-3 py-1 rounded-full font-bold">
+              {package2Price.toLocaleString()}
+            </div>
+          </div>
+        );
+      }
+
       const isIncluded = row.getValue("package2") as boolean;
       return (
         <div className="flex justify-center">
@@ -196,12 +283,24 @@ const packageColumns: ColumnDef<PackageFeature>[] = [
           )}
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "package3",
     header: "Package 3",
     cell: ({ row }) => {
+      if (row.original.type === "price") {
+        const package3Price =
+          packages.find((p) => p.id === "package3")?.price || 0;
+        return (
+          <div className="flex justify-center">
+            <div className="px-3 py-1  rounded-full font-bold">
+              {package3Price.toLocaleString()}
+            </div>
+          </div>
+        );
+      }
+
       const isIncluded = row.getValue("package3") as boolean;
       return (
         <div className="flex justify-center">
@@ -216,12 +315,24 @@ const packageColumns: ColumnDef<PackageFeature>[] = [
           )}
         </div>
       );
-    }
+    },
   },
   {
     accessorKey: "package4",
     header: "Package 4",
     cell: ({ row }) => {
+      if (row.original.type === "price") {
+        const package4Price =
+          packages.find((p) => p.id === "package4")?.price || 0;
+        return (
+          <div className="flex justify-center">
+            <div className="px-3 py-1 rounded-full font-bold">
+              {package4Price.toLocaleString()}
+            </div>
+          </div>
+        );
+      }
+
       const isIncluded = row.getValue("package4") as boolean;
       return (
         <div className="flex justify-center">
@@ -236,66 +347,83 @@ const packageColumns: ColumnDef<PackageFeature>[] = [
           )}
         </div>
       );
-    }
-  }
+    },
+  },
 ];
 
 // Package Detail Component with Table
-const PackageDetailWithTable: React.FC<PackageDetailProps> = ({ 
-  isOpen, 
-  onClose, 
-  selectedPackage, 
-  onSelectPackage 
+const PackageDetailWithTable: React.FC<PackageDetailProps> = ({
+  isOpen,
+  onClose,
+  selectedPackage,
+  onSelectPackage,
 }) => {
-  const screenSize = useAppSelector(state => state.screen_size);
+  const screenSize = useAppSelector((state) => state.screen_size);
   const [activeTab, setActiveTab] = useState("package1");
+  const [isTableReady, setIsTableReady] = useState(false);
 
-  // Table setup
+  // Table setup with extended data - memoized inside component
+  const tableData = React.useMemo(() => createTableData(), []);
+  const memoizedColumns = React.useMemo(() => packageColumns, []);
+
   const table = useReactTable({
-    data: packageFeatures,
-    columns: packageColumns,
+    data: tableData,
+    columns: memoizedColumns,
     getCoreRowModel: getCoreRowModel(),
   });
 
+  // Initialize table when dialog opens
+  React.useEffect(() => {
+    if (isOpen) {
+      // Small delay to prevent blocking
+      const timer = setTimeout(() => {
+        setIsTableReady(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      setIsTableReady(false);
+    }
+  }, [isOpen]);
+
   const getFeatureStatus = (feature: PackageFeature, packageId: string) => {
     switch (packageId) {
-      case "package1": return feature.package1;
-      case "package2": return feature.package2;
-      case "package3": return feature.package3;
-      case "package4": return feature.package4;
-      default: return false;
+      case "package1":
+        return feature.package1;
+      case "package2":
+        return feature.package2;
+      case "package3":
+        return feature.package3;
+      case "package4":
+        return feature.package4;
+      default:
+        return false;
     }
   };
 
   // Mobile Layout
-  if (screenSize === 'mobile') {
+  if (screenSize === "mobile") {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-[95vw] max-h-[90vh] p-0 overflow-hidden">
-          <DialogHeader className="p-4 pb-0">
+        <DialogContent className="max-w-[95vw] max-h-[90vh] p-0 overflow-hidden flex flex-col">
+          <DialogHeader className="p-4 pb-0 flex-shrink-0">
             <div className="flex items-center justify-between">
               <DialogTitle className="text-lg font-semibold">
                 รายละเอียด Package
               </DialogTitle>
-              <button
-                onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-              >
-                <FontAwesomeIcon icon={faX} className="text-gray-500" />
-              </button>
+  
             </div>
           </DialogHeader>
 
           {/* Package Tabs */}
-          <div className="flex gap-1 px-4 mb-4">
+          <div className="flex gap-1 px-4 mb-4 flex-shrink-0">
             {packages.map((pkg, index) => (
               <button
                 key={pkg.id}
                 onClick={() => setActiveTab(pkg.id)}
                 className={`flex-1 py-2 px-3 text-xs font-medium rounded-lg transition-colors ${
                   activeTab === pkg.id
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-purple-100 text-purple-600'
+                    ? "bg-purple-200 text-purple-800"
+                    : "bg-white text-black"
                 }`}
               >
                 {pkg.name}
@@ -303,37 +431,64 @@ const PackageDetailWithTable: React.FC<PackageDetailProps> = ({
             ))}
           </div>
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto px-4">
+          {/* Content - Table-like layout for mobile */}
+          <div className="flex-1 overflow-y-auto px-4 min-h-0">
             {packages
-              .filter(pkg => pkg.id === activeTab)
-              .map(pkg => (
-                <div key={pkg.id} className="space-y-3 pb-4">
+              .filter((pkg) => pkg.id === activeTab)
+              .map((pkg) => (
+                <div key={pkg.id} className="space-y-2 pb-4">
+                  {/* Features list */}
                   {packageFeatures.map((feature) => (
-                    <div key={feature.id} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="w-6 h-6 flex items-center justify-center rounded-full flex-shrink-0 mt-0.5">
+                    <div
+                      key={feature.id}
+                      className="flex items-center py-3 border-b border-gray-100 last:border-b-0"
+                    >
+                      {/* ลำดับ */}
+                      <div className="w-8 text-center text-sm font-medium text-gray-600 flex-shrink-0">
+                        {feature.id}
+                      </div>
+
+                      {/* ชื่อ Package */}
+                      <div className="flex-1 px-3 text-sm text-gray-800 leading-relaxed">
+                        {feature.name}
+                      </div>
+
+                      {/* Icon */}
+                      <div className="w-8 flex justify-center flex-shrink-0">
                         {getFeatureStatus(feature, pkg.id) ? (
                           <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                            <FontAwesomeIcon icon={faCheck} className="text-white text-xs" />
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="text-white text-xs"
+                            />
                           </div>
                         ) : (
                           <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                            <FontAwesomeIcon icon={faTimes} className="text-white text-xs" />
+                            <FontAwesomeIcon
+                              icon={faTimes}
+                              className="text-white text-xs"
+                            />
                           </div>
                         )}
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm text-gray-800 leading-relaxed">
-                          <span className="font-medium">{feature.id}.</span> {feature.name}
-                        </div>
                       </div>
                     </div>
                   ))}
 
-                  {/* Price */}
-                  <div className="bg-purple-50 rounded-lg p-4 text-center">
-                    <div className="text-lg font-bold text-purple-600">
-                      ราคา: {pkg.price.toLocaleString()} บาท
+                  {/* Price Row - ตรงกับ design */}
+                  <div className="flex items-center py-3 bg-[#F2F2F2] rounded-lg mt-4">
+                    {/* ลำดับ (ว่าง) */}
+                    <div className="w-8 flex-shrink-0"></div>
+
+                    {/* ชื่อ "ราคา" */}
+                    <div className="flex-1 px-3 text-sm font-bold text-black">
+                      ราคา
+                    </div>
+
+                    {/* ตัวเลขราคา */}
+                    <div className="w-auto flex justify-center flex-shrink-0 pr-3">
+                      <div className="text-sm font-bold text-black">
+                        {pkg.price.toLocaleString()}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -341,8 +496,8 @@ const PackageDetailWithTable: React.FC<PackageDetailProps> = ({
           </div>
 
           {/* Footer Button */}
-          <div className="p-4 border-t">
-            <Button 
+          <div className="p-4 border-t flex-shrink-0">
+            <Button
               className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full"
               onClick={() => {
                 onSelectPackage?.(activeTab);
@@ -357,16 +512,16 @@ const PackageDetailWithTable: React.FC<PackageDetailProps> = ({
     );
   }
 
-  // Desktop Layout - Table format ตามรูป design
+  // Desktop Layout - Table format with inline pricing
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent 
+      <DialogContent
         className="p-0 overflow-hidden"
-        style={{ 
-          maxWidth: 'none', 
-          width: '95vw', 
-          maxHeight: '90vh',
-          minWidth: '1200px' 
+        style={{
+          maxWidth: "none",
+          width: "95vw",
+          maxHeight: "90vh",
+          minWidth: "1200px",
         }}
       >
         <DialogHeader className="p-6 pb-0">
@@ -374,91 +529,126 @@ const PackageDetailWithTable: React.FC<PackageDetailProps> = ({
             <DialogTitle className="text-xl font-semibold">
               รายละเอียด Package
             </DialogTitle>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
-            >
-              <FontAwesomeIcon icon={faX} className="text-gray-500" />
-            </button>
           </div>
         </DialogHeader>
 
         <div className="p-6 pt-0">
           {/* Table using react-table with scroll */}
           <div className="rounded-lg border overflow-hidden">
-            {/* Table Container with Scroll */}
-            <div className="max-h-96 overflow-y-auto">
-              <Table className="w-full table-auto" style={{ minWidth: '1100px' }}>
-                <TableHeader className="sticky top-0 z-10">
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} className="bg-purple-600 hover:bg-purple-600">
-                      {headerGroup.headers.map((header, index) => (
-                        <TableHead 
-                          key={header.id} 
-                          className="text-white font-medium text-center border-r border-purple-500 last:border-r-0 px-4 py-3"
-                          style={{
-                            width: index === 0 ? '80px' : 
-                                   index === 1 ? '400px' : 
-                                   '140px',
-                            minWidth: index === 0 ? '80px' : 
-                                     index === 1 ? '400px' : 
-                                     '140px'
-                          }}
-                        >
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(header.column.columnDef.header, header.getContext())
-                          }
-                        </TableHead>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableHeader>
-                <TableBody>
-                  {table.getRowModel().rows?.length ? (
-                    table.getRowModel().rows.map((row, index) => (
+            {/* Loading State */}
+            {!isTableReady ? (
+              <div className="flex items-center justify-center h-96">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2"></div>
+                  <p className="text-gray-600">กำลังโหลดข้อมูล...</p>
+                </div>
+              </div>
+            ) : (
+              /* Table Container with Scroll */
+              <div className="max-h-96 overflow-y-auto">
+                <Table
+                  className="w-full table-auto"
+                  style={{ minWidth: "1100px" }}
+                >
+                  <TableHeader className="sticky top-0 z-10">
+                    {table.getHeaderGroups().map((headerGroup) => (
                       <TableRow
-                        key={row.id}
-                        className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}
+                        key={headerGroup.id}
+                        className="bg-purple-600 hover:bg-purple-600"
                       >
-                        {row.getVisibleCells().map((cell, cellIndex) => (
-                          <TableCell 
-                            key={cell.id} 
-                            className="border-r border-gray-200 last:border-r-0 px-4 py-3"
+                        {headerGroup.headers.map((header, index) => (
+                          <TableHead
+                            key={header.id}
+                            className="text-white font-medium text-center border-r border-purple-500 last:border-r-0 px-4 py-3"
                             style={{
-                              width: cellIndex === 0 ? '80px' : 
-                                     cellIndex === 1 ? '400px' : 
-                                     '140px',
-                              minWidth: cellIndex === 0 ? '80px' : 
-                                       cellIndex === 1 ? '400px' : 
-                                       '140px',
-                              textAlign: cellIndex === 0 || cellIndex > 1 ? 'center' : 'left'
+                              width:
+                                index === 0
+                                  ? "80px"
+                                  : index === 1
+                                  ? "400px"
+                                  : "140px",
+                              minWidth:
+                                index === 0
+                                  ? "80px"
+                                  : index === 1
+                                  ? "400px"
+                                  : "140px",
                             }}
                           >
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                          </TableCell>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </TableHead>
                         ))}
                       </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={packageColumns.length} className="h-24 text-center">
-                        ไม่มีข้อมูล
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-
-           
-            
-            
+                    ))}
+                  </TableHeader>
+                  <TableBody>
+                    {table.getRowModel().rows?.length ? (
+                      table.getRowModel().rows.map((row, index) => (
+                        <TableRow
+                          key={row.id}
+                          className={`${
+                            row.original.type === "price"
+                              ? "bg-[#F2F2F2] border-t-2 border-purple-200"
+                              : index % 2 === 0
+                              ? "bg-white"
+                              : "bg-gray-50"
+                          } hover:bg-gray-100`}
+                        >
+                          {row.getVisibleCells().map((cell, cellIndex) => (
+                            <TableCell
+                              key={cell.id}
+                              className="border-r border-gray-200 last:border-r-0 px-4 py-3"
+                              style={{
+                                width:
+                                  cellIndex === 0
+                                    ? "80px"
+                                    : cellIndex === 1
+                                    ? "400px"
+                                    : "140px",
+                                minWidth:
+                                  cellIndex === 0
+                                    ? "80px"
+                                    : cellIndex === 1
+                                    ? "400px"
+                                    : "140px",
+                                textAlign:
+                                  cellIndex === 0 || cellIndex > 1
+                                    ? "center"
+                                    : "left",
+                              }}
+                            >
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={packageColumns.length}
+                          className="h-24 text-center"
+                        >
+                          ไม่มีข้อมูล
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
           </div>
 
           {/* Footer Button */}
-          <div className="mt-6 text-center">
-            <Button 
+          <div className="mt-6 text-end">
+            <Button
               className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-2 rounded-full"
               onClick={onClose}
             >

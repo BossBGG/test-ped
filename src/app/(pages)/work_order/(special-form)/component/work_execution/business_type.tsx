@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import CardCollapse from '../CardCollapse';
+
 
 interface BusinessTypeProps {
   value?: string;
@@ -12,16 +12,12 @@ const BusinessType: React.FC<BusinessTypeProps> = ({ value, onChange }) => {
   const [selectedValue, setSelectedValue] = useState(value || '');
 
   const businessOptions = [
+    { value: 'house', label: 'บ้านอยู่อาศัย' },
     { value: 'manufacturing', label: 'ธุรกิจการผลิต' },
     { value: 'trading', label: 'ธุรกิจการค้า' },
-    { value: 'service', label: 'ธุรกิจบริการ' },
     { value: 'agriculture', label: 'ธุรกิจการเกษตร' },
     { value: 'technology', label: 'ธุรกิจเทคโนโลยี' },
-    { value: 'finance', label: 'ธุรกิจการเงิน' },
-    { value: 'education', label: 'ธุรกิจการศึกษา' },
-    { value: 'healthcare', label: 'ธุรกิจสุขภาพ' },
-    { value: 'construction', label: 'ธุรกิจก่อสร้าง' },
-    { value: 'other', label: 'อื่นๆ' }
+    
   ];
 
   const handleValueChange = (newValue: string) => {

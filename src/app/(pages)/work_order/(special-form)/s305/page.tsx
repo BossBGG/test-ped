@@ -6,7 +6,7 @@ import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
-import ElectricalList from "@/app/(pages)/work_order/(special-form)/s305/electrical-list";
+
 import { useAppSelector } from "@/app/redux/hook";
 import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStepMobile";
 import {
@@ -31,6 +31,8 @@ import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
 import RequestServiceTypeSelector from "./RequestServiceTypeSelector";
+import TransformerList from "./transformer-list";
+
 
 
 
@@ -147,7 +149,7 @@ const ElectricalRepairOrderS301 = () => {
 
             <RequestServiceTypeSelector />
             
-            <ElectricalList
+            <TransformerList
               data={data.electrical}
               updateData={updateElectrical}
             />
@@ -167,7 +169,7 @@ const ElectricalRepairOrderS301 = () => {
           <div>
             <WorkExecution />
             <RequestServiceTypeSelector />
-            <ElectricalList
+            <TransformerList
               data={data.electrical}
               updateData={updateElectrical}
             />

@@ -4,49 +4,54 @@ import React, {useEffect, useState} from "react";
 import {DataTableEditor} from "@/app/components/editor-table/DataTableEditor";
 import {columns} from "@/app/(pages)/work_order/(special-form)/s312/columns";
 import {useAppSelector} from "@/app/redux/hook";
-import {Electrical} from "@/types";
+import {ElectricalEquipment} from "@/types";
 import {ListDataEditor} from "@/app/components/editor-table/ListDataEditor";
 import ListDataContent from "@/app/(pages)/work_order/(special-form)/s312/list-data-content";
 import {Button} from "@/components/ui/button";
 import ModalEquipments from "@/app/(pages)/work_order/(special-form)/s312/modal-equipments";
 import CardCollapse from "@/app/(pages)/work_order/(special-form)/component/CardCollapse";
 
-interface ElectricalListProps {
-  data: Electrical[],
-  updateData: (data: Electrical[]) => void;
+interface TypeElectricalListProps {
+  data: ElectricalEquipment[],
+  updateData: (data: ElectricalEquipment[]) => void;
 }
 
-const ElectricalList = ({
+const TypeElectricalList = ({
                           data,
                           updateData
-                        }: ElectricalListProps) => {
-  const itemElectrical = {
+                        }: TypeElectricalListProps) => {
+  const itemElectricalEquipment = {
     id: 0,
     name: '',
     quantity: 0,
     isUpdate: true,
     isEdited: false
-  } as Electrical;
+  } as ElectricalEquipment;
 
-  const [electricals, setElectrical] = useState<Electrical[]>(data)
+  const [electricalEquipments, setElectricalEquipments] = useState<ElectricalEquipment[]>(data)
   const screenSize = useAppSelector(state => state.screen_size)
   const [removeIds, setRemoveIds] = useState<number[]>([]);
   const [openModal, setOpenModal] = React.useState(false);
   const [updateIndex, setUpdateIndex] = React.useState(-1);
 
-  const equipmentNameOptions = [
-    {label: 'METER (E) WATTHOUR 1P 5(100) A O/D BLE', value: 'METER (E) WATTHOUR 1P 5(100) A O/D BLE'},
-    {label: 'METER (E) WATTHOUR 1P 1(500', value: 'METER (E) WATTHOUR 1P 1(500'}
+  const electricalTypeOptions = [
+    {label: 'มิเตอร์ไฟฟ้า', value: 'มิเตอร์ไฟฟ้า'},
+    {label: 'อุปกรณ์ประกอบในระบบวัดพลังงานไฟฟ้าและอื่นๆ', value: 'อุปกรณ์ประกอบในระบบวัดพลังงานไฟฟ้าและอื่นๆ'},
+    {label: 'อุปกรณ์ประกอบในระบบควบคุมหรือป้องกัน', value: 'อุปกรณ์ประกอบในระบบควบคุมหรือป้องกัน'},
+    {label: 'หม้อแปลงไฟฟ้า', value: 'หม้อแปลงไฟฟ้า'},
+    {label: 'อุปกรณ์สวิตซ์เกียร์', value: 'อุปกรณ์สวิตซ์เกียร์'},
+    {label: 'อุปกรณ์ป้องกันฟ้าผ่า', value: 'อุปกรณ์ป้องกันฟ้าผ่า'},
+    {label: 'อุปกรณ์อื่นๆ', value: 'อุปกรณ์อื่นๆ'}
   ]
 
   useEffect(() => {
     if (screenSize !== 'desktop') {
-      let newElectricals: Electrical[] = electricals.map((item) => {
+      let newElectricalEquipments: ElectricalEquipment[] = electricalEquipments.map((item) => {
         return {...item, isUpdate: false};
       })
 
-      console.log('newElectricals >>> ', newElectricals)
-      setElectrical(newElectricals)
+      console.log('newElectricalEquipments >>> ', newElectricalEquipments)
+      setElectricalEquipments(newElectricalEquipments)
     }
   }, [screenSize]);
 
@@ -56,34 +61,34 @@ const ElectricalList = ({
     ))
   }
 
-  const handleUpdateData = (data: Electrical[]) => {
-    setElectrical(data)
+  const handleUpdateData = (data: ElectricalEquipment[]) => {
+    setElectricalEquipments(data)
     updateData(data)
   }
 
   return (
-    <CardCollapse title={'รายละเอียดหม้อแปลง'}>
+    <CardCollapse title={'ประเภทอุปกรณ์ไฟฟ้า'}>
       {
         screenSize === 'desktop'
           ? <DataTableEditor columns={columns}
                              onUpdateData={handleUpdateData}
                              visibleDelete={true}
-                             rowItem={itemElectrical}
-                             realData={electricals}
-                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่ม' : undefined}
+                             rowItem={itemElectricalEquipment}
+                             realData={electricalEquipments}
+                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่มประเภทอุปกรณ์ไฟฟ้า' : undefined}
                              onRemoveData={onRemoveData}/>
           : <ListDataEditor onUpdateData={handleUpdateData}
-                            realData={electricals}
+                            realData={electricalEquipments}
           >
             {
-              (pageData: Electrical[], page, pageSize) =>
+              (pageData: ElectricalEquipment[], page, pageSize) =>
                 <div>
                   <ListDataContent pageData={pageData}
-                                   realData={electricals}
+                                   realData={electricalEquipments}
                                    page={page}
                                    pageSize={pageSize}
                                    onUpdateData={handleUpdateData}
-                                   equipmentNameOptions={equipmentNameOptions}
+                                   equipmentNameOptions={electricalTypeOptions}
                                    onRemoveData={onRemoveData}
                                    setUpdateIndex={(index) => {
                                      setUpdateIndex(index)
@@ -95,7 +100,7 @@ const ElectricalList = ({
                           onClick={() => setOpenModal(true)}
                   >
                     <FontAwesomeIcon icon={faPlus} className="mr-2"/>
-                    เพิ่ม
+                    เพิ่มประเภทอุปกรณ์ไฟฟ้า
                   </Button>
                 </div>
             }
@@ -110,4 +115,4 @@ const ElectricalList = ({
   )
 }
 
-export default ElectricalList;
+export default TypeElectricalList;

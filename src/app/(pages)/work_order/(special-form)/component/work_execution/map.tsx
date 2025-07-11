@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/pro-light-svg-icons";
 
@@ -23,11 +23,11 @@ const Map: React.FC<MapProps> = ({ latitude, longitude, onLocationUpdate }) => {
   useEffect(() => {
     // Load Google Maps API (แทนที่ YOUR_API_KEY ด้วย API Key จริง)
     if (!window.google) {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=geometry`;
       script.async = true;
       script.defer = true;
-      
+
       window.initMap = initializeMap;
       document.head.appendChild(script);
     } else {
@@ -36,7 +36,7 @@ const Map: React.FC<MapProps> = ({ latitude, longitude, onLocationUpdate }) => {
 
     return () => {
       if (window.initMap) {
-        delete window.initMap;
+        window.initMap = undefined as any;
       }
     };
   }, []);
@@ -78,13 +78,13 @@ const Map: React.FC<MapProps> = ({ latitude, longitude, onLocationUpdate }) => {
           onLocationUpdate?.(newLat, newLng);
         },
         (error) => {
-          console.error('Error getting location:', error);
+          console.error("Error getting location:", error);
           // ใช้ตำแหน่งปัจจุบันแทน
           onLocationUpdate?.(latitude, longitude);
         }
       );
     } else {
-      console.log('Geolocation is not supported by this browser.');
+      console.log("Geolocation is not supported by this browser.");
       onLocationUpdate?.(latitude, longitude);
     }
   };
@@ -94,10 +94,9 @@ const Map: React.FC<MapProps> = ({ latitude, longitude, onLocationUpdate }) => {
       {/* Map Header */}
       <div className="flex flex-col items-start p-4 border-b border-gray-200">
         <div className="flex items-center gap-2 mb-3">
-          
           <span className="text-gray-700 font-medium">แผนที่ / พิกัด</span>
         </div>
-        <button 
+        <button
           onClick={handleLocationCheck}
           className="flex items-center gap-2 px-4 py-2 bg-[#671FAB] text-white rounded-md hover:bg-[#5A1A96] transition-colors text-sm font-medium"
         >
@@ -108,10 +107,10 @@ const Map: React.FC<MapProps> = ({ latitude, longitude, onLocationUpdate }) => {
 
       {/* Map Content */}
       <div className="relative">
-        <div 
+        <div
           ref={mapRef}
           className="w-full h-64"
-          style={{ minHeight: '256px' }}
+          style={{ minHeight: "256px" }}
         >
           {/* Fallback content while map loads */}
           <div className="w-full h-full bg-gray-100 flex items-center justify-center">

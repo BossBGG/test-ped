@@ -31,6 +31,7 @@ import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
 import BusinessType from "../component/work_execution/business_type";
+import VoltageLevel from "./Voltagelevel";
 
 
 
@@ -145,7 +146,7 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
-            <BusinessType/>
+            <VoltageLevel/>
           </div>
         );
 
@@ -159,7 +160,7 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution />
-            <BusinessType/>
+            <VoltageLevel/>
 
             <AddImages />
             <AddFile />

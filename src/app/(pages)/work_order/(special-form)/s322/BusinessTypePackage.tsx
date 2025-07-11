@@ -74,13 +74,13 @@ const BusinessTypePackage: React.FC<BusinessTypePackageProps> = ({
 
               <div className="flex items-center justify-between">
                   <Label htmlFor="package" className="text-sm font-medium text-gray-700">
-                    เลือกแพ็กเกจบริการ
+                    Package
                   </Label>
                   <button
                     onClick={() => setShowPackageDetail(true)}
                     className="text-purple-600 hover:text-purple-800 text-sm font-medium underline"
                   >
-                    ดูรายละเอียดแพ็กเกจทั้งหมด
+                    รายละเอียด Package
                   </button>
                 </div>
                 <Select value={selectedValue} onValueChange={handleValueChange}>
@@ -110,13 +110,13 @@ const BusinessTypePackage: React.FC<BusinessTypePackageProps> = ({
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="package" className="text-sm font-medium text-gray-700">
-                    เลือกแพ็กเกจบริการ
+                    Package
                   </Label>
                   <button
                     onClick={() => setShowPackageDetail(true)}
                     className="text-purple-600 hover:text-purple-800 text-sm font-medium underline"
                   >
-                    ดูรายละเอียดแพ็กเกจทั้งหมด
+                    รายละเอียด Package
                   </button>
                 </div>
                 <Select value={selectedValue} onValueChange={handleValueChange}>

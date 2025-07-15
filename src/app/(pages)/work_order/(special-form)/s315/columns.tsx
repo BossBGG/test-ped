@@ -11,12 +11,16 @@ import {
 
 const equipmentNameOptions = [
   {
-    label: "METER (E) WATTHOUR 1P 5(100) A O/D BLE",
-    value: "METER (E) WATTHOUR 1P 5(100) A O/D BLE",
+    label: "หม้อแปลง A",
+    value: "หม้อแปลง A",
   },
   {
-    label: "METER (E) WATTHOUR 1P 1(500",
-    value: "METER (E) WATTHOUR 1P 1(500",
+    label: "หม้อแปลง B",
+    value: "หม้อแปลง B",
+  },
+  {
+    label: "หม้อแปลง C",
+    value: "หม้อแปลง C",
   },
 ];
 
@@ -43,36 +47,18 @@ export const columns: ColumnDef<Electrical>[] = [
     },
   },
   {
-    accessorKey: "",
-    header: "ยื่ห้อ",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={""}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
-  },
-  {
-    accessorKey: "",
-    header: "เฟส",
+    accessorKey: "name",
+    header: "ขนาดหม้อแปลง",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableSelectCell
             columnValue={row.original.name}
             row={row}
-            column={{ id: "" }}
+            column={{ id: "name" }}
             table={table}
             options={equipmentNameOptions}
-            placeholder={"เฟส"}
+            placeholder={"ขนาดหม้อแปลง"}
           />
         );
       } else {
@@ -83,77 +69,21 @@ export const columns: ColumnDef<Electrical>[] = [
     },
   },
   {
-    accessorKey: "",
-    header: "ประเภท",
-    cell: ({ row, table }) => {
+    accessorKey: "quantity",
+    header: "จำนวน",
+    cell: ({row, table}) => {
       if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={row.original.quantity}
-            numberOnly={true}
-          />
-        );
+        return <EditableTextCell 
+          row={row}
+          column={{id: 'quantity'}}
+          table={table}
+          columnValue={row.original.quantity}
+          numberOnly={true}
+        />
       } else {
-        return row.getValue("");
+        return row.getValue('quantity')
       }
-    },
-  },
-  {
-    accessorKey: "",
-    header: "Serial",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={""}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
-  },
-  {
-    accessorKey: "",
-    header: "ขนาด",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={""}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
-  },
-  {
-    accessorKey: "",
-    header: "แรงดัน",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={""}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
+    }
   },
   {
     accessorKey: "action",

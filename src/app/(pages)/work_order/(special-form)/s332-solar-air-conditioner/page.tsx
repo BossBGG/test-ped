@@ -34,7 +34,7 @@ import AddImagesSolarBattery from "./AddImagesSolarBattery ";
 import DistanceComponent from "./Distance";
 import AddVideo from "./AddVideo";
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS332SolarAirConditioner = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -277,4 +277,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS332SolarAirConditioner;

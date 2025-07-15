@@ -2,33 +2,36 @@ import Modal from "@/app/layout/Modal";
 import {cn} from "@/lib/utils";
 import {useEffect, useState} from "react";
 import InputSelect from "@/app/components/form/InputSelect";
-import {MaterialEquipmentObj, Options} from "@/types";
+import {TransformerMaterialEquipmentObj, Options} from "@/types";
 import {Label} from "@/components/ui/label";
 import {Checkbox} from "@/components/ui/checkbox";
 import InputText from "@/app/components/form/InputText";
+import { Button } from "@/components/ui/button";
 
 interface ModalEquipmentsProps {
   open: boolean,
   onClose: () => void,
-  index: number
+  index: number,
+  onAddEquipment?: (equipment: TransformerMaterialEquipmentObj) => void,
 }
 
 const ModalEquipments = ({
                            open,
                            onClose,
-                           index
+                           index,
+                           onAddEquipment
                          }: ModalEquipmentsProps) => {
   const [active, setActive] = useState(0);
   const [material, setMaterial] = useState('');
   const [equipmentSelected, setEquipmentSelected] = useState<number[]>([]);
   const [materialOptions, setMaterialOptions] = useState<Options[]>([
-    {value: 'ชุดตรวจสอบและบำรุงอุปกรณ์ไฟฟ้า', label: 'ชุดตรวจสอบและบำรุงอุปกรณ์ไฟฟ้า'}
+    {value: 'ชุดตรวจสอบและบำรุงรักษาหม้อแปลง', label: 'ชุดตรวจสอบและบำรุงรักษาหม้อแปลง'}
   ])
 
-  const [equipmentList, setEquipmentList] = useState<MaterialEquipmentObj[]>([
-    {name: 'อุปกรณ์ไฟฟ้า A', quantity: 1, id: 1, isEdited: false} as MaterialEquipmentObj,
-    {name: 'อุปกรณ์ไฟฟ้า B', quantity: 1, id: 2, isEdited: false} as MaterialEquipmentObj,
-    {name: 'อุปกรณ์ไฟฟ้า C', quantity: 1, id: 3, isEdited: false} as MaterialEquipmentObj,
+  const [equipmentList, setEquipmentList] = useState<TransformerMaterialEquipmentObj[]>([
+    {code: 'S-3H-044',name: 'หม้อแปลง 3P5000KVA', type: '2', serial: '1', size: '2', pressure: '-', unit: 'ชิ้น' , id: 1, isActive: true, isUpdate: false, isEdited: false} as TransformerMaterialEquipmentObj,
+    {code: 'S-3H-044',name: 'หม้อแปลง 3P5000KVA', type: '2', serial: '1', size: '2', pressure: '-', unit: 'ชิ้น' , id: 2, isActive: true, isUpdate: false, isEdited: false} as TransformerMaterialEquipmentObj,
+    {code: 'S-3H-044',name: 'หม้อแปลง 3P5000KVA', type: '2', serial: '1', size: '2', pressure: '-', unit: 'ชิ้น' , id: 3, isActive: true, isUpdate: false, isEdited: false} as TransformerMaterialEquipmentObj,
   ]);
 
   const classActive = 'text-[#671FAB] bg-[#F4EEFF]';
@@ -59,9 +62,48 @@ const ModalEquipments = ({
     }
   }
 
+  const handleSubmit = () => {
+    const selectedEquipments = equipmentList.filter((equipment) => 
+      equipmentSelected.includes(equipment.id)
+    );
+
+    selectedEquipments.forEach((equipment) => {
+      onAddEquipment?.(equipment);
+    });
+
+    // Reset selections
+    setEquipmentSelected([]);
+    setMaterial("");
+    onClose();
+  }
+
+  const handleCancel = () => {
+    setEquipmentSelected([]);
+    setMaterial("");
+    onClose();
+  }
+
+  
+
   return (
     <Modal title="เพิ่มวัสดุอุปกรณ์"
-           footer={<div></div>}
+           footer={
+           <div className="w-full flex flex-wrap justify-between items-center">
+              <div className=" p-2 w-1/2">
+              <Button
+              className="text-[#671FAB] w-full bg-white border-1 border-[#671FAB] rounded-full font-semibold md:text-start text-center cursor-pointer hover:bg-white"
+              onClick={handleCancel}
+              >
+                ยกเลิก
+              </Button>
+              </div>
+               <div className=" p-2 w-1/2">
+               <Button className="pea-button w-full" onClick={handleSubmit}>
+                บันทึก
+               </Button>
+              </div>
+           </div>
+           }
            open={open} onClose={onClose}>
       <div className="flex items-center p-1 bg-[#F8F8F8] rounded-full">
         {
@@ -108,14 +150,31 @@ const ModalEquipments = ({
                       checked={equipmentSelected.includes(item.id)}
                       onCheckedChange={(checked: boolean) => handleCheck(checked, item.id)}
             />
-            <Label htmlFor={`equipment_${index}`} className="flex flex-col items-start w-full">
-              <div>{item.name}</div>
-              <div className="flex justify-between items-center w-full">
-                <div className="text-[14px] text-[#4A4A4A]">จำนวน :</div>
-                <div className="w-[15%]">
-                  <InputText value={item.quantity}
-                             align="center"
-                  />
+            <Label htmlFor={`equipment_${index}`} className="flex flex-col items-start w-full cursor-pointer">
+              {/* Header with equipment code and name */}
+              <div className="font-medium text-base mb-2">
+                {index + 1}. {item.code} -- {item.name}
+              </div>
+              {/* Equipment details in grid */}
+              <div className="flex flex-col gap-2 text-sm text-gray-600 w-full mb-3">
+                <div className="flex justify-between">
+                  <span>ประเภท:</span>
+                  <span className="font-medium">{item.type}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>Serial:</span>
+                  <span className="font-medium">{item.serial}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>ขนาด:</span>
+                  <span className="font-medium">{item.size}</span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span>แรงดัน:</span>
+                  <span className="font-medium">{item.pressure}</span>
                 </div>
               </div>
             </Label>

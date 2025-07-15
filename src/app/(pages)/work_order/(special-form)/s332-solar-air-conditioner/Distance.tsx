@@ -31,8 +31,8 @@ const DistanceComponent: React.FC<DistanceComponentProps> = ({
   const wiringOptions = [
     { value: 'เหนือ', label: 'เหนือ' },
     { value: 'ใต้', label: 'ใต้' },
-    { value: 'ข้าง', label: 'ข้าง' },
-    { value: 'ภายใน', label: 'ภายใน' }
+    { value: 'ตะวันออก', label: 'ตะวันออก' },
+    { value: 'ตะวันตก', label: 'ตะวันตก' }
   ];
 
   const handleChange = (field: keyof DistanceData, value: any) => {
@@ -44,11 +44,11 @@ const DistanceComponent: React.FC<DistanceComponentProps> = ({
   // Mobile Layout
   if (screenSize === 'mobile') {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-4 space-y-6">
+      <div className="bg-white rounded-lg borderborder-gray-200  p-4 border-1 mb-4 shadow-md">
         {/* ระยะก่อนแบตเตอรี่ */}
-        <div className="space-y-2">
+        <div className="space-y-2 mb-2">
           <Label htmlFor="battery-distance-mobile" className="text-sm font-medium text-gray-700">
-            ระยะก่อนแบตเตอรี่
+            ระยะท่อน้ำยาแอร์
           </Label>
           <div className="text-xs text-gray-500 mb-2">
             (จากคอยส์ร่อนถึงคอยส่วยเย็น) ประมาณ
@@ -69,12 +69,12 @@ const DistanceComponent: React.FC<DistanceComponentProps> = ({
         </div>
 
         {/* ระยะสายไฟ DC */}
-        <div className="space-y-2">
-          <Label htmlFor="dc-cable-mobile" className="text-sm font-medium text-gray-700">
+        <div className="space-y-2 mb-2">
+          <Label htmlFor="dc-cable-mobile" className="text-sm font-medium text-gray-700 ">
             ระยะสายไฟ DC
           </Label>
           <div className="text-xs text-gray-500 mb-2">
-            (จากแผงโซลาร์เซลล์ถึงคอยส่วยร่อน) ประมาณ
+            (จากแผงโซลาร์เซลล์ถึงคอยส่วยร้อน) ประมาณ
           </div>
           <div className="relative">
             <Input
@@ -92,9 +92,9 @@ const DistanceComponent: React.FC<DistanceComponentProps> = ({
         </div>
 
         {/* ระยะสายไฟ AC */}
-        <div className="space-y-2">
+        <div className="space-y-2 mb-2">
           <Label htmlFor="ac-cable-mobile" className="text-sm font-medium text-gray-700">
-            ระยะสายไฟ AC (จากตู้ไฟถึงคอยส่วยร่อน)
+            ระยะสายไฟ AC (จากตู้ไฟถึงคอยส่วยร้อน)
           </Label>
           <div className="relative">
             <Input
@@ -112,7 +112,7 @@ const DistanceComponent: React.FC<DistanceComponentProps> = ({
         </div>
 
         {/* หน้าบ้านเห็นกิจ */}
-        <div className="space-y-2">
+        <div className="space-y-2 mb-2">
           <Label htmlFor="wiring-type-mobile" className="text-sm font-medium text-gray-700">
             หน้าบ้านเห็นกิจ
           </Label>
@@ -138,7 +138,7 @@ const DistanceComponent: React.FC<DistanceComponentProps> = ({
 
   // Desktop Layout
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-lg borderborder-gray-200  p-4 border-1 mb-4 shadow-md">
       <div className="grid grid-cols-2 gap-6">
         {/* Left Column */}
         <div className="space-y-6">

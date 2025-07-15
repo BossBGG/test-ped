@@ -1,5 +1,5 @@
 'use client';
-import {Electrical, Options} from "@/types";
+import {Transformer, Options} from "@/types";
 import {Card, CardContent} from "@/components/ui/card";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faPencil, faTrashCan} from "@fortawesome/pro-light-svg-icons";
@@ -7,9 +7,9 @@ import React, {useEffect, useState} from "react";
 import {useAppSelector} from "@/app/redux/hook";
 
 interface ListDataContentProps {
-  realData: Electrical[],
-  pageData: Electrical[],
-  onUpdateData: (data: Electrical[]) => void,
+  realData: Transformer[],
+  pageData: Transformer[],
+  onUpdateData: (data: Transformer[]) => void,
   onRemoveData: (id: number) => void,
   setUpdateIndex: (index: number) => void,
   page: number,
@@ -27,7 +27,7 @@ const ListDataContent = ({
                            pageSize,
                            equipmentNameOptions,
                          }: ListDataContentProps) => {
-  const [data, setData] = useState<Electrical[]>([]);
+  const [data, setData] = useState<Transformer[]>([]);
 
   useEffect(() => {
     setData(pageData)
@@ -35,7 +35,7 @@ const ListDataContent = ({
 
   const handleUpdateData = (key: string, value: string | number | boolean | undefined, index: number) => {
     index = (page * pageSize) + index
-    const newData = realData.map((item: Electrical, idx) => {
+    const newData = realData.map((item: Transformer, idx) => {
       let isEdited = item.isEdited;
       if(key === 'isUpdate' && value) {
         isEdited = true

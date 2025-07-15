@@ -26,9 +26,9 @@ const ModalEquipments = ({
   ])
 
   const [equipmentList, setEquipmentList] = useState<MaterialEquipmentObj[]>([
-    {name: 'อุปกรณ์ไฟฟ้า A', quantity: 1, id: 1, isEdited: false} as MaterialEquipmentObj,
-    {name: 'อุปกรณ์ไฟฟ้า B', quantity: 1, id: 2, isEdited: false} as MaterialEquipmentObj,
-    {name: 'อุปกรณ์ไฟฟ้า C', quantity: 1, id: 3, isEdited: false} as MaterialEquipmentObj,
+    {name: 'มิเตอร์', size: "2" , quantity: 1, id: 1, isEdited: false} as MaterialEquipmentObj,
+    {name: 'ฉบวนครอบสายแรงสูง', size: "1" , quantity: 1, id: 2, isEdited: false} as MaterialEquipmentObj,
+    {name: 'หม้อแปลงไฟฟ้า', size: "3" , quantity: 1, id: 3, isEdited: false} as MaterialEquipmentObj,
   ]);
 
   const classActive = 'text-[#671FAB] bg-[#F4EEFF]';
@@ -109,7 +109,15 @@ const ModalEquipments = ({
                       onCheckedChange={(checked: boolean) => handleCheck(checked, item.id)}
             />
             <Label htmlFor={`equipment_${index}`} className="flex flex-col items-start w-full">
-              <div>{item.name}</div>
+               <div className="font-medium text-base ">
+                {index + 1}. {item.name}
+              </div>
+              <div className="flex flex-col gap-2 text-sm text-gray-600 w-full mb-3">
+                <div className="flex justify-between">
+                  <span>ขนาด:</span>
+                  <span className="font-medium">{item.size}</span>
+                </div>
+              </div>  
               <div className="flex justify-between items-center w-full">
                 <div className="text-[14px] text-[#4A4A4A]">จำนวน :</div>
                 <div className="w-[15%]">

@@ -134,70 +134,55 @@ const AddImagesSolarBattery: React.FC<AddImagesSolarBatteryProps> = ({ onImagesC
   if (screenSize === 'mobile') {
     return (
       <CardCollapse title="ภาพถ่าย">
-        <div className="p-4 space-y-4">
+        <div className="">
           {imageCategories.map((category) => {
             const image = getImageForCategory(category.id);
             
             return (
-              <div key={category.id} className="bg-white border border-[#E1D2FF] rounded-lg p-4">
+              <div key={category.id} className="bg-white border border-[#E1D2FF] rounded-lg p-2 mb-4">
                 <div className="bg-[#E1D2FF] rounded-lg p-3 mb-3 text-center font-medium text-gray-700">
                   {category.title}
                 </div>
                 
                 {image ? (
-                  <div className="space-y-3 ">
+                  <div className="space-y-3">
                     {/* Image thumbnail and details */}
-                    <div className="flex items-center space-x-3 bg-white rounded-lg p-3">
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                        <img 
-                          src={image.url} 
-                          alt={image.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-medium text-gray-900 truncate">
-                          {image.name}
+                    <div className="bg-white rounded-lg p-3 border border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                          <img 
+                            src={image.url} 
+                            alt={image.name}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {formatFileSize(image.size)}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-medium text-gray-900 truncate">
+                            {image.name}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {formatFileSize(image.size)}
+                          </div>
                         </div>
-                        <div className="text-xs text-green-600 font-medium">
-                          สถานะ: เสร็จสิ้น
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => saveImage(image.id)}
+                            className="w-8 h-8 bg-purple-100 hover:bg-purple-200 rounded-lg flex items-center justify-center"
+                          >
+                            <FontAwesomeIcon icon={faSave} className="text-purple-600 text-sm" />
+                          </button>
+                          <button
+                            onClick={() => removeImage(image.id)}
+                            className="w-8 h-8 bg-red-100 hover:bg-red-200 rounded-lg flex items-center justify-center"
+                          >
+                            <FontAwesomeIcon icon={faTrash} className="text-red-600 text-sm" />
+                          </button>
                         </div>
-                        <div className="text-xs text-gray-500">
-                          {formatDate(image.uploadDate)}
-                        </div>
-                      </div>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => saveImage(image.id)}
-                          className="w-8 h-8 bg-purple-100 hover:bg-purple-200 rounded-lg flex items-center justify-center"
-                        >
-                          <FontAwesomeIcon icon={faSave} className="text-purple-600 text-sm" />
-                        </button>
-                        <button
-                          onClick={() => removeImage(image.id)}
-                          className="w-8 h-8 bg-red-100 hover:bg-red-200 rounded-lg flex items-center justify-center"
-                        >
-                          <FontAwesomeIcon icon={faTrash} className="text-red-600 text-sm" />
-                        </button>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="text-center border border-[#E1D2FF] rounded-lg p-4">
-                    <label htmlFor={`upload-${category.id}`}>
-                      <Button 
-                        type="button" 
-                        variant="outline"
-                        className="pea-button-outline w-full"
-                        disabled={uploading}
-                      >
-                        <FontAwesomeIcon icon={faCloudUpload} className="mr-2" />
-                        {uploading ? 'กำลังอัพโหลด...' : 'อัพโหลดรูปภาพ'}
-                      </Button>
-                    </label>
                     <input
                       id={`upload-${category.id}`}
                       type="file"
@@ -206,8 +191,17 @@ const AddImagesSolarBattery: React.FC<AddImagesSolarBatteryProps> = ({ onImagesC
                       className="hidden"
                       disabled={uploading}
                     />
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById(`upload-${category.id}`)?.click()}
+                      className="pea-button-outline my-2 w-full"
+                      disabled={uploading}
+                    >
+                      <FontAwesomeIcon icon={faCloudUpload} className="mr-2" />
+                      {uploading ? 'กำลังอัพโหลด...' : 'อัพโหลดรูปภาพ'}
+                    </button>
                     <div className="text-xs text-gray-500 mt-2">
-                      สามารถอัพโหลด 1 รูปภาพ ขนาดสูงสุด 10 MB
+                      อัปโหลดไฟล์ที่รองรับ 1 รายการ ขนาดสูงสุด 10 MB
                     </div>
                   </div>
                 )}
@@ -236,68 +230,59 @@ const AddImagesSolarBattery: React.FC<AddImagesSolarBatteryProps> = ({ onImagesC
                 
                 {image ? (
                   /* Image Details in Row Layout */
-                  <div className="flex items-center space-x-4 bg-white rounded-lg p-4">
-                    {/* Image Thumbnail */}
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
-                      <img 
-                        src={image.url} 
-                        alt={image.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    
-                    {/* Image Info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-gray-900 truncate mb-1">
-                        {image.name}
+                  <div className="bg-white rounded-lg p-4 border border-gray-200">
+                    <div className="flex items-center space-x-4">
+                      {/* Image Thumbnail */}
+                      <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+                        <img 
+                          src={image.url} 
+                          alt={image.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <div className="text-sm text-gray-600 mb-1">
-                        {formatFileSize(image.size)}
+                      
+                      {/* Image Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-900 truncate mb-1">
+                          {image.name}
+                        </div>
+                        <div className="text-sm text-gray-600 mb-1">
+                          {formatFileSize(image.size)} 
+                        </div>
+                        <div className="flex items-center space-x-2 text-xs">
+                          <span className="inline-flex items-center">
+                            <span className="w-2 h-2 bg-green-400 rounded-full mr-1"></span>
+                            <span className="text-gray-600">เสร็จสิ้น</span>
+                          </span>
+                          <span className="text-gray-500">
+                            {formatDate(image.uploadDate)}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-2 text-xs">
-                        <span className="inline-flex items-center">
-                          <span className="w-2 h-2 bg-green-400 rounded-full mr-1"></span>
-                          <span className="text-gray-600">เสร็จสิ้น</span>
-                        </span>
-                        <span className="text-gray-500">
-                          {formatDate(image.uploadDate)}
-                        </span>
+                      
+                      {/* Action Buttons */}
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => saveImage(image.id)}
+                          className="w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-lg flex items-center justify-center transition-colors"
+                          title="บันทึก"
+                        >
+                          <FontAwesomeIcon icon={faSave} className="text-purple-600" />
+                        </button>
+                        <button
+                          onClick={() => removeImage(image.id)}
+                          className="w-10 h-10 bg-red-100 hover:bg-red-200 rounded-lg flex items-center justify-center transition-colors"
+                          title="ลบ"
+                        >
+                          <FontAwesomeIcon icon={faTrash} className="text-red-600" />
+                        </button>
                       </div>
-                    </div>
-                    
-                    {/* Action Buttons */}
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => saveImage(image.id)}
-                        className="w-10 h-10 bg-purple-100 hover:bg-purple-200 rounded-lg flex items-center justify-center transition-colors"
-                        title="บันทึก"
-                      >
-                        <FontAwesomeIcon icon={faSave} className="text-purple-600" />
-                      </button>
-                      <button
-                        onClick={() => removeImage(image.id)}
-                        className="w-10 h-10 bg-red-100 hover:bg-red-200 rounded-lg flex items-center justify-center transition-colors"
-                        title="ลบ"
-                      >
-                        <FontAwesomeIcon icon={faTrash} className="text-red-600" />
-                      </button>
                     </div>
                   </div>
                 ) : (
                   /* Upload Section */
                   <div className="flex flex-row text-center py-8 gap-4 justify-center border border-[#E1D2FF] rounded-lg">
-                    <label htmlFor={`upload-${category.id}`}>
-                      <Button 
-                        type="button" 
-                        variant="outline"
-                        className="pea-button-outline"
-                        disabled={uploading}
-                      >
-                        <FontAwesomeIcon icon={faCloudUpload} className="mr-2" />
-                        {uploading ? 'กำลังอัพโหลด...' : 'อัพโหลดรูปภาพ'}
-                      </Button>
-                    </label>
-                    <input
+                     <input
                       id={`upload-${category.id}`}
                       type="file"
                       accept=".png,.jpg,.jpeg"
@@ -305,8 +290,17 @@ const AddImagesSolarBattery: React.FC<AddImagesSolarBatteryProps> = ({ onImagesC
                       className="hidden"
                       disabled={uploading}
                     />
-                    <div className="text-sm text-gray-500 mt-2">
-                      สามารถอัพโหลด 1 รูปภาพ ขนาดสูงสุด 10 MB
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById(`upload-${category.id}`)?.click()}
+                      className="pea-button-outline my-2 w-[24%]"
+                      disabled={uploading}
+                    >
+                      <FontAwesomeIcon icon={faCloudUpload} className="mr-2" />
+                      {uploading ? 'กำลังอัพโหลด...' : 'อัพโหลดรูปภาพ'}
+                    </button>
+                    <div className="text-md text-gray-500 mt-5">
+                      อัปโหลดไฟล์ที่รองรับ 1 รายการ ขนาดสูงสุด 10 MB
                     </div>
                   </div>
                 )}

@@ -2,7 +2,7 @@
 import { useBreadcrumb } from "@/app/context/BreadcrumbContext";
 import { useEffect, useState } from "react";
 import WorkOrderInfo from "@/app/(pages)/work_order/(special-form)/component/WorkOrderInfo";
-import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
+import { Customer, Transformer, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
@@ -29,16 +29,15 @@ import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
-import BusinessType from "../component/work_execution/business_type";
 import TransformerList from "./transformer-list";
 import TransformerSize from "./TransformerSize";
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS308 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
     customer_info: {} as Customer,
-    electrical: [] as Electrical[],
+    transformer: [] as Transformer[],
     workers: [] as WorkerObj[],
   } as WorkOrderObj);
   const screenSize = useAppSelector((state) => state.screen_size);
@@ -72,8 +71,8 @@ const ElectricalRepairOrderS301 = () => {
     setData(data);
   };
 
-  const updateElectrical = (value: Electrical[]) => {
-    data.electrical = value;
+  const updateTransformer = (value: Transformer[]) => {
+    data.transformer = value;
     setData(data);
     console.log("data >>> ", data);
   };
@@ -145,8 +144,8 @@ const ElectricalRepairOrderS301 = () => {
             />
             <TransformerSize />
             <TransformerList
-              data={data.electrical}
-              updateData={updateElectrical}
+              data={data.transformer}
+              updateData={updateTransformer}
             />
           </div>
         );
@@ -165,8 +164,8 @@ const ElectricalRepairOrderS301 = () => {
             <TransformerSize />
 
             <TransformerList
-              data={data.electrical}
-              updateData={updateElectrical}
+              data={data.transformer}
+              updateData={updateTransformer}
             />
 
             <AddImages />
@@ -276,4 +275,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS308;

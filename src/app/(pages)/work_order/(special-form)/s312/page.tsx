@@ -37,7 +37,7 @@ import BusinessType from "../component/work_execution/business_type";
 
 
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS312 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -281,4 +281,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS312;

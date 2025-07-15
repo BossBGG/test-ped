@@ -30,13 +30,14 @@ import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
-import BusinessType from "../component/work_execution/business_type";
+import TransformerDateSelector from "./TransformerDateSelector";
+import ElectricalList from "../s316/electrical-list";
 
 
 
 
 
-const ElectricalRepairOrderS399 = () => {
+const ElectricalRepairOrderS316 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -63,8 +64,8 @@ const ElectricalRepairOrderS399 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน ขอบริการอื่นๆขอบริการอื่นๆ"}
-        path={"s399"}
+        title={"สร้างใบสั่งงาน ขอเช่าหม้อแปลง"}
+        path={"s315"}
       />
     );
   }, [setBreadcrumb]);
@@ -74,7 +75,11 @@ const ElectricalRepairOrderS399 = () => {
     setData(data);
   };
 
-  
+  const updateElectrical = (value: Electrical[]) => {
+    data.electrical = value;
+    setData(data);
+    console.log("data >>> ", data);
+  };
 
   const handleGoBack = () => {
     if (currentStep > 0) {
@@ -142,7 +147,12 @@ const ElectricalRepairOrderS399 = () => {
               updateData={updateCustomerInfo}
             />
 
-            <BusinessType/>
+            <TransformerDateSelector/>
+
+            <ElectricalList
+              data={data.electrical}
+              updateData={updateElectrical}
+            />
           </div>
         );
 
@@ -156,8 +166,14 @@ const ElectricalRepairOrderS399 = () => {
         return (
           <div>
             <WorkExecution />
-            <BusinessType/>
+            
+            <TransformerDateSelector/>
 
+            <ElectricalList
+              data={data.electrical}
+              updateData={updateElectrical}
+            />
+            
             <AddImages />
             <AddFile />
             <Comment />
@@ -266,4 +282,4 @@ const ElectricalRepairOrderS399 = () => {
   );
 };
 
-export default ElectricalRepairOrderS399;
+export default ElectricalRepairOrderS316;

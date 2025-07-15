@@ -6,17 +6,20 @@ import {MaterialEquipmentObj, Options} from "@/types";
 import {Label} from "@/components/ui/label";
 import {Checkbox} from "@/components/ui/checkbox";
 import InputText from "@/app/components/form/InputText";
+import { Button } from "@/components/ui/button";
 
 interface ModalEquipmentsProps {
   open: boolean,
   onClose: () => void,
   index: number
+  onAddEquipment?: (equipment: MaterialEquipmentObj) => void,
 }
 
 const ModalEquipments = ({
                            open,
                            onClose,
-                           index
+                           index,
+                           onAddEquipment
                          }: ModalEquipmentsProps) => {
   const [active, setActive] = useState(0);
   const [material, setMaterial] = useState('');
@@ -59,9 +62,46 @@ const ModalEquipments = ({
     }
   }
 
+  const handleSubmit = () => {
+    const selectedEquipments = equipmentList.filter((equipment) => 
+      equipmentSelected.includes(equipment.id)
+    );
+
+    selectedEquipments.forEach((equipment) => {
+      onAddEquipment?.(equipment);
+    });
+
+    // Reset selections
+    setEquipmentSelected([]);
+    setMaterial("");
+    onClose();
+  }
+
+  const handleCancel = () => {
+    setEquipmentSelected([]);
+    setMaterial("");
+    onClose();
+  }
+
   return (
     <Modal title="เพิ่มวัสดุอุปกรณ์"
-           footer={<div></div>}
+           footer={
+            <div className="w-full flex flex-wrap justify-between items-center">
+              <div className=" p-2 w-1/2">
+              <Button
+              className="text-[#671FAB] w-full bg-white border-1 border-[#671FAB] rounded-full font-semibold md:text-start text-center cursor-pointer hover:bg-white"
+              onClick={handleCancel}
+              >
+                ยกเลิก
+              </Button>
+              </div>
+               <div className=" p-2 w-1/2">
+               <Button className="pea-button w-full" onClick={handleSubmit}>
+                บันทึก
+               </Button>
+              </div>
+           </div>
+           }
            open={open} onClose={onClose}>
       <div className="flex items-center p-1 bg-[#F8F8F8] rounded-full">
         {

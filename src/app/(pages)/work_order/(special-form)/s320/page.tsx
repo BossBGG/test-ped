@@ -36,7 +36,7 @@ import BusinessType from "../component/work_execution/business_type";
 
 
 
-const ElectricalRepairOrderS399 = () => {
+const ElectricalRepairOrderS320 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -63,8 +63,8 @@ const ElectricalRepairOrderS399 = () => {
   useEffect(() => {
     setBreadcrumb(
       <WorkOrderBreadcrumb
-        title={"สร้างใบสั่งงาน ขอบริการอื่นๆขอบริการอื่นๆ"}
-        path={"s399"}
+        title={"สร้างใบสั่งงาน ขอติดตั้งมิเตอร์เปรียบเทียบ กรณีผิดปกติ"}
+        path={"s320"}
       />
     );
   }, [setBreadcrumb]);
@@ -74,7 +74,11 @@ const ElectricalRepairOrderS399 = () => {
     setData(data);
   };
 
-  
+  const updateElectrical = (value: Electrical[]) => {
+    data.electrical = value;
+    setData(data);
+    console.log("data >>> ", data);
+  };
 
   const handleGoBack = () => {
     if (currentStep > 0) {
@@ -266,4 +270,4 @@ const ElectricalRepairOrderS399 = () => {
   );
 };
 
-export default ElectricalRepairOrderS399;
+export default ElectricalRepairOrderS320;

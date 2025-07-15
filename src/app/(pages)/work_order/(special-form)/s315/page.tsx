@@ -38,7 +38,7 @@ import ElectricalList from "../s315/electrical-list";
 
 
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS315 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -282,4 +282,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS315;

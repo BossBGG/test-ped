@@ -2,46 +2,51 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/pro-light-svg-icons";
 import React, {useEffect, useState} from "react";
 import {DataTableEditor} from "@/app/components/editor-table/DataTableEditor";
-import {columns} from "@/app/(pages)/work_order/(special-form)/s314/columns";
+import {columns} from "@/app/(pages)/work_order/(special-form)/s316/columns";
 import {useAppSelector} from "@/app/redux/hook";
-import {Insulator} from "@/types";
+import {Electrical} from "@/types";
 import {ListDataEditor} from "@/app/components/editor-table/ListDataEditor";
-import ListDataContent from "@/app/(pages)/work_order/(special-form)/s314/list-data-content";
+import ListDataContent from "@/app/(pages)/work_order/(special-form)/s316/list-data-content";
 import {Button} from "@/components/ui/button";
-import ModalEquipments from "@/app/(pages)/work_order/(special-form)/s314/modal-equipments";
+import ModalEquipments from "@/app/(pages)/work_order/(special-form)/s316/modal-equipments";
 import CardCollapse from "@/app/(pages)/work_order/(special-form)/component/CardCollapse";
 
-interface InsulatorListProps {
-  data: Insulator[],
-  updateData: (data: Insulator[]) => void;
+interface ElectricalListProps {
+  data: Electrical[],
+  updateData: (data: Electrical[]) => void;
 }
 
-const InsulatorList = ({
+const ElectricalList = ({
                           data,
                           updateData
-                        }: InsulatorListProps) => {
-  const itemInsulator = {
+                        }: ElectricalListProps) => {
+  const itemElectrical = {
     id: 0,
-    insulator_type: '',
+    name: '',
     quantity: 0,
     isUpdate: true,
     isEdited: false
-  } as Insulator;
+  } as Electrical;
 
-  const [insulators, setInsulators] = useState<Insulator[]>(data)
+  const [electricals, setElectrical] = useState<Electrical[]>(data)
   const screenSize = useAppSelector(state => state.screen_size)
   const [removeIds, setRemoveIds] = useState<number[]>([]);
   const [openModal, setOpenModal] = React.useState(false);
   const [updateIndex, setUpdateIndex] = React.useState(-1);
 
+  const equipmentNameOptions = [
+    {label: 'METER (E) WATTHOUR 1P 5(100) A O/D BLE', value: 'METER (E) WATTHOUR 1P 5(100) A O/D BLE'},
+    {label: 'METER (E) WATTHOUR 1P 1(500', value: 'METER (E) WATTHOUR 1P 1(500'}
+  ]
+
   useEffect(() => {
     if (screenSize !== 'desktop') {
-      let newInsulators: Insulator[] = insulators.map((item) => {
+      let newElectricals: Electrical[] = electricals.map((item) => {
         return {...item, isUpdate: false};
       })
 
-      console.log('newInsulators >>> ', newInsulators)
-      setInsulators(newInsulators)
+      console.log('newElectricals >>> ', newElectricals)
+      setElectrical(newElectricals)
     }
   }, [screenSize]);
 
@@ -51,33 +56,34 @@ const InsulatorList = ({
     ))
   }
 
-  const handleUpdateData = (data: Insulator[]) => {
-    setInsulators(data)
+  const handleUpdateData = (data: Electrical[]) => {
+    setElectrical(data)
     updateData(data)
   }
 
   return (
-    <CardCollapse title={'ฉนวนครอบสายไฟฟ้า'}>
+    <CardCollapse title={'เครื่องกำเนิดไฟฟ้า'}>
       {
         screenSize === 'desktop'
           ? <DataTableEditor columns={columns}
                              onUpdateData={handleUpdateData}
                              visibleDelete={true}
-                             rowItem={itemInsulator}
-                             realData={insulators}
-                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่มฉนวนครอบสายไฟฟ้า' : undefined}
+                             rowItem={itemElectrical}
+                             realData={electricals}
+                             LabelAddRow={screenSize === 'desktop' ? 'เพิ่ม' : undefined}
                              onRemoveData={onRemoveData}/>
           : <ListDataEditor onUpdateData={handleUpdateData}
-                            realData={insulators}
+                            realData={electricals}
           >
             {
-              (pageData: Insulator[], page, pageSize) =>
+              (pageData: Electrical[], page, pageSize) =>
                 <div>
                   <ListDataContent pageData={pageData}
-                                   realData={insulators}
+                                   realData={electricals}
                                    page={page}
                                    pageSize={pageSize}
                                    onUpdateData={handleUpdateData}
+                                   equipmentNameOptions={equipmentNameOptions}
                                    onRemoveData={onRemoveData}
                                    setUpdateIndex={(index) => {
                                      setUpdateIndex(index)
@@ -89,7 +95,7 @@ const InsulatorList = ({
                           onClick={() => setOpenModal(true)}
                   >
                     <FontAwesomeIcon icon={faPlus} className="mr-2"/>
-                    เพิ่มฉนวนครอบสายไฟฟ้า
+                    เพิ่ม
                   </Button>
                 </div>
             }
@@ -104,4 +110,4 @@ const InsulatorList = ({
   )
 }
 
-export default InsulatorList;
+export default ElectricalList;

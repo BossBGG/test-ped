@@ -62,7 +62,7 @@ const ElectricalList = ({
   }
 
   return (
-    <CardCollapse title={'รายละเอียดหม้อแปลง'}>
+    <CardCollapse title={'หม้อแปลง'}>
       {
         screenSize === 'desktop'
           ? <DataTableEditor columns={columns}

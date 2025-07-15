@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EditableSelectCell } from "@/app/components/editor-table/EditableSelectCell";
 import { EditableTextCell } from "@/app/components/editor-table/EditableTextCell";
-import { Electrical } from "@/types";
+import { Transformer } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
@@ -31,7 +31,7 @@ const updateData = (
   table.options.meta?.handleEditRow(index, isUpdate, is_edit, table);
 };
 
-export const columns: ColumnDef<Electrical>[] = [
+export const columns: ColumnDef<Transformer>[] = [
   {
     accessorKey: "no",
     header: "ลำดับที่",
@@ -40,25 +40,25 @@ export const columns: ColumnDef<Electrical>[] = [
     },
   },
   {
-    accessorKey: "",
+    accessorKey: "name",
     header: "ยื่ห้อ",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: "name" }}
             table={table}
-            columnValue={""}
+            columnValue={row.getValue("name") || ''}
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue("name");
       }
     },
   },
   {
-    accessorKey: "",
+    accessorKey: "phase",
     header: "เฟส",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
@@ -66,7 +66,7 @@ export const columns: ColumnDef<Electrical>[] = [
           <EditableSelectCell
             columnValue={row.original.name}
             row={row}
-            column={{ id: "" }}
+            column={{ id: "phase" }}
             table={table}
             options={equipmentNameOptions}
             placeholder={"เฟส"}
@@ -74,81 +74,82 @@ export const columns: ColumnDef<Electrical>[] = [
         );
       } else {
         return equipmentNameOptions.filter(
-          (item) => item.value === row.getValue("")
+          (item) => item.value === row.getValue("phase")
         )[0]?.label;
       }
     },
   },
   {
-    accessorKey: "",
+    accessorKey: "type",
     header: "ประเภท",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: "type" }}
             table={table}
-            columnValue={row.original.quantity}
+            columnValue={row.getValue("type") || ''}
             numberOnly={true}
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue("type");
       }
     },
   },
   {
-    accessorKey: "",
+    accessorKey: "serial",
     header: "Serial",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: "serial" }}
             table={table}
-            columnValue={""}
+            columnValue={row.getValue("serial") || ''}
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue("serial");
       }
     },
   },
   {
-    accessorKey: "",
+    accessorKey: "size",
     header: "ขนาด",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: "size" }}
             table={table}
-            columnValue={""}
+            columnValue={row.getValue("size") || ''}
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue("size");
       }
     },
   },
   {
-    accessorKey: "",
+    accessorKey: "pressure",
     header: "แรงดัน",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: "pressure" }}
             table={table}
-            columnValue={""}
+            columnValue={row.getValue("pressure") || ''}
+          
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue("pressure");
       }
     },
   },

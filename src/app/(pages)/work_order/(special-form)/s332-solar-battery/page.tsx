@@ -29,11 +29,11 @@ import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
-import BusinessType from "../component/work_execution/business_type";
+
 import AddImagesSolarBattery from "./AddImagesSolarBattery ";
 import InverterComponent from "./Inverter";
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS332SolarBattery = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -276,4 +276,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS332SolarBattery;

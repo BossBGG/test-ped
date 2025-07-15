@@ -6,7 +6,6 @@ import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
-import ElectricalList from "@/app/(pages)/work_order/(special-form)/s314/insulator-list";
 import { useAppSelector } from "@/app/redux/hook";
 import WorkOrderStepMobile from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStepMobile";
 import {
@@ -25,23 +24,21 @@ import SatisfactionAssessment from "../component/work_execution/satisfaction_ass
 import RecordKeeper from "../component/work_execution/record_keeper";
 import { useRouter } from "next/navigation";
 
-
 import RatingAndComment from "../component/work_execution/RatingAndComment ";
 import SignatureSection from "../component/work_execution/signature_section";
 import CardCollapse from "../component/CardCollapse";
 import WorkOrderActionButtons from "../component/WorkOrderActionBunttons";
 
 import InsulationDateSelector from "./InsulationDateSelector";
+import InsulatorList from "@/app/(pages)/work_order/(special-form)/s314/insulator-list";
+import { Insulator } from "@/types";
 
-
-
-
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS314 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
     customer_info: {} as Customer,
-    electrical: [] as Electrical[],
+    insulators: [] as Insulator[],
     workers: [] as WorkerObj[],
   } as WorkOrderObj);
   const screenSize = useAppSelector((state) => state.screen_size);
@@ -51,7 +48,8 @@ const ElectricalRepairOrderS301 = () => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [customerSignature, setCustomerSignature] = useState<string>("");
-  const [recordKeeperSignature, setRecordKeeperSignature] = useState<string>("");
+  const [recordKeeperSignature, setRecordKeeperSignature] =
+    useState<string>("");
 
   const steps = [
     { name: "ข้อมูลลูกค้า", icon: faPen },
@@ -74,8 +72,8 @@ const ElectricalRepairOrderS301 = () => {
     setData(data);
   };
 
-  const updateElectrical = (value: Electrical[]) => {
-    data.electrical = value;
+  const updateInsulators = (value: Insulator[]) => {
+    data.insulators = value;
     setData(data);
     console.log("data >>> ", data);
   };
@@ -146,14 +144,12 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
-            <InsulationDateSelector/>
-            
-            <ElectricalList
-              data={data.electrical}
-              updateData={updateElectrical}
-            />
+            <InsulationDateSelector />
 
-            
+            <InsulatorList
+              data={data.insulators}
+              updateData={updateInsulators}
+            />
           </div>
         );
 
@@ -167,10 +163,10 @@ const ElectricalRepairOrderS301 = () => {
         return (
           <div>
             <WorkExecution />
-            <InsulationDateSelector/>
-            <ElectricalList
-              data={data.electrical}
-              updateData={updateElectrical}
+            <InsulationDateSelector />
+            <InsulatorList
+              data={data.insulators}
+              updateData={updateInsulators}
             />
             <AddImages />
             <AddFile />
@@ -280,4 +276,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS314;

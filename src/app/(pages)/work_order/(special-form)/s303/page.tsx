@@ -35,7 +35,7 @@ import BusinessType from "../component/work_execution/business_type";
 
 
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS303 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
@@ -73,11 +73,6 @@ const ElectricalRepairOrderS301 = () => {
     setData(data);
   };
 
-  const updateElectrical = (value: Electrical[]) => {
-    data.electrical = value;
-    setData(data);
-    console.log("data >>> ", data);
-  };
 
   const handleGoBack = () => {
     if (currentStep > 0) {
@@ -269,4 +264,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS303;

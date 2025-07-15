@@ -4,6 +4,7 @@ import CardCollapse from "../CardCollapse";
 
 import SignatureSection from "./signature_section";
 import RatingAndComment from "./RatingAndComment ";
+import { fal } from "@fortawesome/pro-light-svg-icons";
 
 interface SatisfactionData {
   rating: number;
@@ -87,6 +88,8 @@ const SatisfactionAssessment: React.FC<SatisfactionAssessmentProps> = ({
             title="ภาพลายเซ็นลูกค้า"
             signature={signature}
             onSignatureChange={handleSignatureChange}
+            showPresetSignature={false}
+            showResetButton={true}
           />
           
         </div>

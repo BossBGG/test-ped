@@ -49,6 +49,7 @@ const CreateMaterialEquipment = () => {
     name: '',
     quantity: 0,
     unit: '',
+    size: '',
     isActive: false,
     isUpdate: true,
     isEdited: false

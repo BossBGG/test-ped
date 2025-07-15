@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EditableSelectCell } from "@/app/components/editor-table/EditableSelectCell";
 import { EditableTextCell } from "@/app/components/editor-table/EditableTextCell";
-import { Electrical } from "@/types";
+import { MeterEquipment } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,
@@ -11,13 +11,18 @@ import {
 
 const equipmentNameOptions = [
   {
-    label: "METER (E) WATTHOUR 1P 5(100) A O/D BLE",
-    value: "METER (E) WATTHOUR 1P 5(100) A O/D BLE",
+    label: "มิเตอร์",
+    value: "มิเตอร์",
   },
   {
-    label: "METER (E) WATTHOUR 1P 1(500",
-    value: "METER (E) WATTHOUR 1P 1(500",
+    label: "อุปกรณ์ครอบสายไฟฟ้า",
+    value: "อุปกรณ์ครอบสายไฟฟ้า",
   },
+  {
+    label: "หม้อแปลงไฟฟ้า",
+    value: "หม้อแปลงไฟฟ้า",
+  },
+  
 ];
 
 const deleteData = (index: number, id: number, table: any) => {
@@ -34,7 +39,7 @@ const updateData = (
   table.options.meta?.handleEditRow(index, isUpdate, is_edit, table);
 };
 
-export const columns: ColumnDef<Electrical>[] = [
+export const columns: ColumnDef<MeterEquipment>[] = [
   {
     accessorKey: "no",
     header: "ลำดับที่",
@@ -43,115 +48,79 @@ export const columns: ColumnDef<Electrical>[] = [
     },
   },
   {
-    accessorKey: "",
-    header: "ยื่ห้อ",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={""}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
-  },
-  {
-    accessorKey: "",
-    header: "เฟส",
+    accessorKey: "equipment_name",
+    header: "มิเตอร์/อุปกรณ์ไฟฟ้า",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableSelectCell
-            columnValue={row.original.name}
+            columnValue={row.getValue('equipment_name') || ''}
             row={row}
-            column={{ id: "" }}
+            column={{ id: 'equipment_name' }}
             table={table}
             options={equipmentNameOptions}
-            placeholder={"เฟส"}
+            placeholder={'เลือกมิเตอร์/อุปกรณ์ไฟฟ้า'}
           />
         );
       } else {
-        return equipmentNameOptions.filter(
-          (item) => item.value === row.getValue("")
-        )[0]?.label;
+        return row.getValue('equipment_name') || '';
       }
     },
   },
   {
-    accessorKey: "",
-    header: "ประเภท",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={row.original.quantity}
-            numberOnly={true}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
-  },
-  {
-    accessorKey: "",
-    header: "Serial",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "" }}
-            table={table}
-            columnValue={""}
-          />
-        );
-      } else {
-        return row.getValue("");
-      }
-    },
-  },
-  {
-    accessorKey: "",
+    accessorKey: "size",
     header: "ขนาด",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: 'size' }}
             table={table}
-            columnValue={""}
+            columnValue={row.getValue('size') || ''}
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue('size') || '';
       }
     },
   },
   {
-    accessorKey: "",
-    header: "แรงดัน",
+    accessorKey: "quantity",
+    header: "จำนวน",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableTextCell
             row={row}
-            column={{ id: "" }}
+            column={{ id: 'quantity' }}
             table={table}
-            columnValue={""}
+            columnValue={row.getValue('quantity') || 0}
+            numberOnly={true}
           />
         );
       } else {
-        return row.getValue("");
+        return row.getValue('quantity') || 0;
+      }
+    },
+  },
+  {
+    accessorKey: "price",
+    header: "ราคา",
+    cell: ({ row, table }) => {
+      if (row.original.isUpdate) {
+        return (
+          <EditableTextCell
+            row={row}
+            column={{ id: 'price' }}
+            table={table}
+            columnValue={row.getValue('price') || 0}
+            numberOnly={true}
+          />
+        );
+      } else {
+        const price = row.getValue('price') as number;
+        return price ? `${price.toLocaleString()}` : '0';
       }
     },
   },

@@ -2,7 +2,7 @@
 import { useBreadcrumb } from "@/app/context/BreadcrumbContext";
 import { useEffect, useState } from "react";
 import WorkOrderInfo from "@/app/(pages)/work_order/(special-form)/component/WorkOrderInfo";
-import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
+import { Customer, MeterEquipment, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
@@ -35,12 +35,12 @@ import BusinessType from "../component/work_execution/business_type";
 
 
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS318 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
     customer_info: {} as Customer,
-    electrical: [] as Electrical[],
+    meterequipment: [] as MeterEquipment[],
     workers: [] as WorkerObj[],
   } as WorkOrderObj);
   const screenSize = useAppSelector((state) => state.screen_size);
@@ -73,8 +73,8 @@ const ElectricalRepairOrderS301 = () => {
     setData(data);
   };
 
-  const updateElectrical = (value: Electrical[]) => {
-    data.electrical = value;
+  const updateElectrical = (value: MeterEquipment[]) => {
+    data.meterequipment = value;
     setData(data);
     console.log("data >>> ", data);
   };
@@ -145,14 +145,14 @@ const ElectricalRepairOrderS301 = () => {
               updateData={updateCustomerInfo}
             />
 
-            
+            <BusinessType/>
             
             <ElectricalList
-              data={data.electrical}
+              data={data.meterequipment}
               updateData={updateElectrical}
             />
 
-            <BusinessType/>
+            
           </div>
         );
 
@@ -168,7 +168,7 @@ const ElectricalRepairOrderS301 = () => {
             <WorkExecution />
             <BusinessType/>
             <ElectricalList
-              data={data.electrical}
+              data={data.meterequipment}
               updateData={updateElectrical}
             />
             <AddImages />
@@ -279,4 +279,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS318;

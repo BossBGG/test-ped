@@ -47,7 +47,7 @@ const Comment: React.FC<CommentProps> = ({
               value={comment}
               onChange={handleChange}
               placeholder="กรอกหมายเหตุเพิ่มเติม"
-              className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none border-[#D1D5DB] focus:border-[#671FAB] focus:ring-[#671FAB] md:text-sm"
+              className="flex min-h-[80px] w-full rounded-md border  bg-transparent px-3 py-2 text-base shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none border-[#D1D5DB] focus:border-[#671FAB] focus:ring-[#671FAB] md:text-sm"
               maxLength={characterLimit}
               rows={3} 
             />
@@ -65,7 +65,7 @@ const Comment: React.FC<CommentProps> = ({
 
   // Desktop version (original style without CardCollapse)
   return (
-    <div className="p-4 border-1 mb-4 rounded-lg shadow-md">
+    <div className="p-4 border-1 mb-4 rounded-lg shadow-md border-[#E1D2FF] ">
       <div className="space-y-2">
         <Label htmlFor="comment" className="text-sm font-medium text-gray-700">
           หมายเหตุเพิ่มเติม
@@ -76,7 +76,7 @@ const Comment: React.FC<CommentProps> = ({
           value={comment}
           onChange={handleChange}
           placeholder="กรอกหมายเหตุเพิ่มเติม"
-          className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none border-[#D1D5DB] focus:border-[#671FAB] focus:ring-[#671FAB] md:text-sm"
+          className="flex min-h-[60px] w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none border-[#D1D5DB] focus:border-[#671FAB] focus:ring-[#671FAB] md:text-sm"
           maxLength={characterLimit}
         />
         

@@ -109,6 +109,8 @@ const RecordKeeper: React.FC<RecordKeeperProps> = ({ onDataChange }) => {
             title="ภาพลายเซ็นผู้บันทึกผลปฏิบัติงาน"
             signature={signature}
             onSignatureChange={handleSignatureChange}
+            showPresetSignature={true}
+            showResetButton={false}
           />
         </div>
       </div>

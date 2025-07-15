@@ -43,12 +43,12 @@ const InverterComponent: React.FC<InverterComponentProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white rounded-lg  border-1 border-[#E1D2FF]  p-4 mb-4 shadow-md">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
        
         <div className="space-y-2">
           <Label htmlFor="ac-voltage" className="text-sm font-medium text-gray-700">
-            ระยะจากแผงโซลาร์สำหรับ กิ่ง อินเวอร์เตอร์
+            ระยะจากแผงโซลาร์สำหรับ ถึง อินเวอร์เตอร์
           </Label>
           <div className="relative">
             <Input

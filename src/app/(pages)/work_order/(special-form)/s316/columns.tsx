@@ -1,9 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { EditableSelectCell } from "@/app/components/editor-table/EditableSelectCell";
 import { EditableTextCell } from "@/app/components/editor-table/EditableTextCell";
-import { Transformer } from "@/types";
+import { Electrical } from "@/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  
+import {
   faCheckCircle,
   faPencil,
   faTrashCan,
@@ -11,10 +11,17 @@ import {
 
 const equipmentNameOptions = [
   {
-    label: "หม้อแปลง3P5000KVA(รายปี)",
-    value: "Transformer 3P5000KVA(annual)",
+    label: "ขนาด A",
+    value: "ขนาด A",
   },
-  
+  {
+    label: "ขนาด B",
+    value: "ขนาด B",
+  },
+  {
+    label: "ขนาด C",
+    value: "ขนาด C",
+  },
 ];
 
 const deleteData = (index: number, id: number, table: any) => {
@@ -31,128 +38,70 @@ const updateData = (
   table.options.meta?.handleEditRow(index, isUpdate, is_edit, table);
 };
 
-export const columns: ColumnDef<Transformer>[] = [
+export const columns: ColumnDef<Electrical>[] = [
   {
     accessorKey: "no",
     header: "ลำดับที่",
-
     cell: ({ row }) => {
       return <div className="text-center">{row.index + 1}</div>;
     },
   },
   {
-    accessorKey: "name",
-    header: "ยื่ห้อ",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "name" }}
-            table={table}
-            columnValue={row.getValue('name') || ''}
-          />
-        );
-      } else {
-        return row.getValue("name");
-      }
+      accessorKey: "name",
+      header: "การไฟฟ้าเจ้าของเครื่อง",
+      cell: ({ row, table }) => {
+        if (row.original.isUpdate) {
+          return (
+            <EditableTextCell
+              row={row}
+              column={{ id: "name" }}
+              table={table}
+              columnValue={row.getValue("name") || ''}
+            />
+          );
+        } else {
+          return row.getValue("name");
+        }
+      },
     },
-  },
   {
-    accessorKey: "phase",
-    header: "เฟส",
+    accessorKey: "size",
+    header: "ขนาดหม้อแปลง",
     cell: ({ row, table }) => {
       if (row.original.isUpdate) {
         return (
           <EditableSelectCell
             columnValue={row.original.name}
             row={row}
-            column={{ id: "phase" }}
+            column={{ id: "size" }}
             table={table}
             options={equipmentNameOptions}
-            placeholder={"เฟส"}
+            placeholder={"ขนาดหม้อแปลง"}
           />
         );
       } else {
         return equipmentNameOptions.filter(
-          (item) => item.value === row.getValue("phase")
+          (item) => item.value === row.getValue("size")
         )[0]?.label;
       }
     },
   },
   {
-    accessorKey: "type",
-    header: "ประเภท",
-    cell: ({ row, table }) => {
+    accessorKey: "quantity",
+    header: "จำนวน",
+    cell: ({row, table}) => {
       if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "type" }}
-            table={table}
-            columnValue={row.getValue('type') || ''}
-            numberOnly={true}
-          />
-        );
+        return <EditableTextCell 
+          row={row}
+          column={{id: 'quantity'}}
+          table={table}
+          columnValue={row.original.quantity}
+          numberOnly={true}
+        />
       } else {
-        return row.getValue("type");
+        return row.getValue('quantity')
       }
-    },
-  },
-  {
-    accessorKey: "serial",
-    header: "Serial",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "serial" }}
-            table={table}
-            columnValue={row.getValue("serial") || ''}
-          />
-        );
-      } else {
-        return row.getValue("serial");
-      }
-    },
-  },
-  {
-    accessorKey: "size",
-    header: "ขนาด",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "size" }}
-            table={table}
-            columnValue={row.getValue("size") || ''}
-          />
-        );
-      } else {
-        return row.getValue("size");
-      }
-    },
-  },
-  {
-    accessorKey: "pressure",
-    header: "แรงดัน",
-    cell: ({ row, table }) => {
-      if (row.original.isUpdate) {
-        return (
-          <EditableTextCell
-            row={row}
-            column={{ id: "pressure" }}
-            table={table}
-            columnValue={row.getValue("pressure") || ''}
-            
-          />
-        );
-      } else {
-        return row.getValue("pressure");
-      }
-    },
+    }
   },
   {
     accessorKey: "action",

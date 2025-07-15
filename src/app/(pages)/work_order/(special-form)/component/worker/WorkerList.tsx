@@ -125,13 +125,7 @@ const WorkerList = ({
               className="w-full md:w-1/3"
             />
             
-            {appointmentDate && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                <p className="text-sm text-gray-600">
-                  วันที่ที่เลือก: <span className="font-medium">{appointmentDate.toLocaleDateString('th-TH')}</span>
-                </p>
-              </div>
-            )}
+            
           </div>
         </div>
       </CardCollapse>

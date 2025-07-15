@@ -1,18 +1,20 @@
 'use client';
-import {Insulator, Options} from "@/types";
+import {Electrical, Options} from "@/types";
 import {Card, CardContent} from "@/components/ui/card";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faPencil, faTrashCan} from "@fortawesome/pro-light-svg-icons";
 import React, {useEffect, useState} from "react";
+import {useAppSelector} from "@/app/redux/hook";
 
 interface ListDataContentProps {
-  realData: Insulator[],
-  pageData: Insulator[],
-  onUpdateData: (data: Insulator[]) => void,
+  realData: Electrical[],
+  pageData: Electrical[],
+  onUpdateData: (data: Electrical[]) => void,
   onRemoveData: (id: number) => void,
   setUpdateIndex: (index: number) => void,
   page: number,
-  pageSize: number
+  pageSize: number,
+  equipmentNameOptions: Options[]
 }
 
 const ListDataContent = ({
@@ -23,8 +25,9 @@ const ListDataContent = ({
                            setUpdateIndex,
                            page,
                            pageSize,
+                           equipmentNameOptions,
                          }: ListDataContentProps) => {
-  const [data, setData] = useState<Insulator[]>([]);
+  const [data, setData] = useState<Electrical[]>([]);
 
   useEffect(() => {
     setData(pageData)
@@ -32,7 +35,7 @@ const ListDataContent = ({
 
   const handleUpdateData = (key: string, value: string | number | boolean | undefined, index: number) => {
     index = (page * pageSize) + index
-    const newData = realData.map((item: Insulator, idx) => {
+    const newData = realData.map((item: Electrical, idx) => {
       let isEdited = item.isEdited;
       if(key === 'isUpdate' && value) {
         isEdited = true
@@ -65,27 +68,24 @@ const ListDataContent = ({
               <CardContent>
                 <div className="flex flex-col">
                   <div>
-                    <div className="font-medium text-lg mb-2">
-                      {index + 1}. {item.insulator_type || 'ประเภทฉนวนครอบสายไฟฟ้า'}
-                    </div>
+                    <div>{index + 1}. {item.name}</div>
+                    
                   </div>
 
                   <div className="flex justify-between items-center md:mt-0 mt-3">
-                    <div className="text-sm text-gray-600">
-                      จำนวน: <span className="font-medium text-lg">{item.quantity || 1} ชิ้น</span>
-                    </div>
-                    <div className="flex flex-row justify-end space-x-2">
+                    <div>จำนวนหน่วย : {item.quantity}</div>
+                    <div className="flex flex-row justify-end">
                     {
                       item.isUpdate ?
                         <button
-                          className="bg-[#C8F9E9] rounded-[8px] p-2 flex items-center justify-center cursor-pointer"
+                          className="bg-[#C8F9E9] rounded-[8px] mr-2 p-2 flex items-center justify-center cursor-pointer"
                           onClick={() => handleUpdateData('isUpdate', false, index)}
                         >
                           <FontAwesomeIcon icon={faCheckCircle} size={"sm"} color="#31C48D"/>
                         </button>
                         :
                         <button
-                          className="bg-[#FDE5B6] rounded-[8px] w-[32px] h-[32px] flex items-center justify-center cursor-pointer"
+                          className="bg-[#FDE5B6] rounded-[8px] mr-2 w-[32px] h-[32px] flex items-center justify-center cursor-pointer"
                           onClick={() => handleUpdateData('isUpdate', true, index)}
                         >
                           <FontAwesomeIcon icon={faPencil} size={"sm"} color="#F9AC12"/>
@@ -103,7 +103,7 @@ const ListDataContent = ({
               </CardContent>
             </Card>
           ))
-          : <div className="text-center text-gray p-4">ไม่มีรายการฉนวนครอบสายไฟฟ้า</div>
+          : <div className="text-center text-gray p-4">ไม่มีรายการวัสดุอุปกรณ์</div>
       }
     </div>
   )

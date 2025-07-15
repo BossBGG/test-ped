@@ -2,7 +2,7 @@
 import { useBreadcrumb } from "@/app/context/BreadcrumbContext";
 import { useEffect, useState } from "react";
 import WorkOrderInfo from "@/app/(pages)/work_order/(special-form)/component/WorkOrderInfo";
-import { Customer, Electrical, WorkerObj, WorkOrderObj } from "@/types";
+import { Customer, Transformer, WorkerObj, WorkOrderObj } from "@/types";
 import WorkOrderBreadcrumb from "@/app/(pages)/work_order/(special-form)/component/breadcrumb";
 import WorkOrderStep from "@/app/(pages)/work_order/(special-form)/component/WorkOrderStep";
 import CustomerInfo from "@/app/(pages)/work_order/(special-form)/component/CustomerInfo";
@@ -37,12 +37,12 @@ import TransformerList from "./transformer-list";
 
 
 
-const ElectricalRepairOrderS301 = () => {
+const ElectricalRepairOrderS305 = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const router = useRouter();
   const [data, setData] = useState<WorkOrderObj>({
     customer_info: {} as Customer,
-    electrical: [] as Electrical[],
+    transformer: [] as Transformer[],
     workers: [] as WorkerObj[],
   } as WorkOrderObj);
   const screenSize = useAppSelector((state) => state.screen_size);
@@ -75,8 +75,8 @@ const ElectricalRepairOrderS301 = () => {
     setData(data);
   };
 
-  const updateElectrical = (value: Electrical[]) => {
-    data.electrical = value;
+  const updateTransformers  = (value: Transformer[]) => {
+    data.transformer = value;
     setData(data);
     console.log("data >>> ", data);
   };
@@ -150,8 +150,8 @@ const ElectricalRepairOrderS301 = () => {
             <RequestServiceTypeSelector />
             
             <TransformerList
-              data={data.electrical}
-              updateData={updateElectrical}
+              data={data.transformer}
+              updateData={updateTransformers }
             />
 
             
@@ -170,8 +170,8 @@ const ElectricalRepairOrderS301 = () => {
             <WorkExecution />
             <RequestServiceTypeSelector />
             <TransformerList
-              data={data.electrical}
-              updateData={updateElectrical}
+              data={data.transformer}
+              updateData={updateTransformers }
             />
             <AddImages />
             <AddFile />
@@ -281,4 +281,4 @@ const ElectricalRepairOrderS301 = () => {
   );
 };
 
-export default ElectricalRepairOrderS301;
+export default ElectricalRepairOrderS305;

@@ -21,7 +21,7 @@ const CustomerInfo = ({
 
   return (
     <CardCollapse title={'ข้อมูลลูกค้า'}>
-      <div className="flex flex-wrap px-0 py-2">
+      <div className="flex flex-wrap px-0 py-2 ">
         <div className="w-full md:w-1/2 p-2">
           <InputText placeholder="ชื่อลูกค้า"
                      label="ชื่อลูกค้า"
